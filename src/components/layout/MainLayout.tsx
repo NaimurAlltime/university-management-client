@@ -2,7 +2,7 @@ import { Layout } from "antd";
 import { Outlet } from "react-router-dom";
 import Sidebar from "./Sidebar";
 
-const { Header, Content, Footer } = Layout;
+const { Header, Content } = Layout;
 
 function MainLayout() {
   return (
@@ -20,9 +20,9 @@ function MainLayout() {
             <Outlet />
           </div>
         </Content>
-        <Footer style={{ textAlign: "center" }}>
+        {/* <Footer style={{ textAlign: "center" }}>
           Ant Design ©{new Date().getFullYear()} Created by Ant UED
-        </Footer>
+        </Footer> */}
       </Layout>
     </Layout>
   );
