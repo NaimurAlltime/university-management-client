@@ -5,8 +5,11 @@ import { TAuthLoginInfo } from "../types/auth.type";
 import { useAppDispatch } from "../redux/hooks";
 import { setUser } from "../redux/features/auth/authSlice";
 import { verifyToken } from "../utils/verifyToken";
+import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 function Login() {
+  const navigate = useNavigate();
   const { register, handleSubmit } = useForm({
     defaultValues: {
       username: "shovo123",
@@ -18,16 +21,26 @@ function Login() {
   const dispatch = useAppDispatch();
 
   const handleLogin = async (data: TAuthLoginInfo) => {
-    const userInfo = {
-      username: data.username,
-      password: data.password,
-    };
+    const toastId = toast.loading("Log in loading");
+    try {
+      const userInfo = {
+        username: data.username,
+        password: data.password,
+      };
 
-    const res = await login(userInfo).unwrap();
+      const res = await login(userInfo).unwrap();
 
-    const user = verifyToken(res.data.token);
+      const user = verifyToken(res.data.token);
 
-    dispatch(setUser({ user: user, token: res.data.token }));
+      dispatch(setUser({ user: user, token: res.data.token }));
+      toast.success("Login Successfully done!", {
+        id: toastId,
+        duration: 2000,
+      });
+      navigate(`/${user.role}/dashboard`);
+    } catch (error) {
+      toast.error("something went wrong!", { id: toastId, duration: 2000 });
+    }
   };
 
   return (
