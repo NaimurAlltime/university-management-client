@@ -1,11 +1,11 @@
-import { Button } from "antd";
+import { Button, Row } from "antd";
 import { FieldValues } from "react-hook-form";
 import { useLoginMutation } from "../redux/features/auth/authApi";
 import { useAppDispatch } from "../redux/hooks";
-// import { TUser, setUser } from "../redux/features/auth/authSlice";
-// import { verifyToken } from "../utils/verifyToken";
+import { TUser, setUser } from "../redux/features/auth/authSlice";
+import { verifyToken } from "../utils/verifyToken";
 import { useNavigate } from "react-router-dom";
-// import { toast } from "sonner";
+import { toast } from "sonner";
 import CRForm from "../components/form/CRForm";
 import CRInput from "../components/form/CRInput";
 
@@ -23,40 +23,36 @@ function Login() {
 
   const handleLogin = async (data: FieldValues) => {
     console.log(data);
-    // const toastId = toast.loading("Log in loading");
-    // try {
-    //   const userInfo = {
-    //     username: data.username,
-    //     password: data.password,
-    //   };
+    const toastId = toast.loading("Log in loading");
+    try {
+      const userInfo = {
+        username: data.username,
+        password: data.password,
+      };
 
-    //   const res = await login(userInfo).unwrap();
+      const res = await login(userInfo).unwrap();
 
-    //   const user: TUser = verifyToken(res.data.token);
+      const user: TUser = verifyToken(res.data.token);
 
-    //   dispatch(setUser({ user: user, token: res.data.token }));
-    //   toast.success("Login Successfully done!", {
-    //     id: toastId,
-    //     duration: 2000,
-    //   });
-    //   navigate(`/${user.role}/dashboard`);
-    // } catch (error) {
-    //   toast.error("something went wrong!", { id: toastId, duration: 2000 });
-    // }
+      dispatch(setUser({ user: user, token: res.data.token }));
+      toast.success("Login Successfully done!", {
+        id: toastId,
+        duration: 2000,
+      });
+      navigate(`/${user.role}/dashboard`);
+    } catch (error) {
+      toast.error("something went wrong!", { id: toastId, duration: 2000 });
+    }
   };
 
   return (
-    <CRForm onSubmit={handleLogin}>
-      <div>
-        {/* <label htmlFor="username">Username: </label> */}
+    <Row justify={"center"} align={"middle"} style={{ height: "100vh" }}>
+      <CRForm onSubmit={handleLogin}>
         <CRInput type="text" name="username" label="Username:" />
-      </div>
-      <div>
-        {/* <label htmlFor="password">Password: </label> */}
         <CRInput type="text" name="password" label="Password:" />
-      </div>
-      <Button htmlType="submit">Login</Button>
-    </CRForm>
+        <Button htmlType="submit">Login</Button>
+      </CRForm>
+    </Row>
   );
 }
 

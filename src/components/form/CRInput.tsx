@@ -1,12 +1,15 @@
-import { useFormContext } from "react-hook-form";
+import { Input } from "antd";
+import { Controller } from "react-hook-form";
 
 function CRInput({ type, name, label }) {
-  const { register } = useFormContext();
   return (
-    <>
+    <div style={{ marginBottom: "15px" }}>
       {label ? label : null}
-      <input type={type} id={name} {...register(name)} />
-    </>
+      <Controller
+        name={name}
+        render={({ field }) => <Input {...field} type={type} id={name} />}
+      />
+    </div>
   );
 }
 
