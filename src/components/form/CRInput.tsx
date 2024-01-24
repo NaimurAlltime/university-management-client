@@ -1,7 +1,13 @@
 import { Input } from "antd";
 import { Controller } from "react-hook-form";
 
-function CRInput({ type, name, label }) {
+type TInputProps = {
+  type: string;
+  name: string;
+  label?: string;
+};
+
+function CRInput({ type, name, label }: TInputProps) {
   return (
     <div style={{ marginBottom: "15px" }}>
       {label ? label : null}

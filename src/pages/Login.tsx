@@ -21,6 +21,11 @@ function Login() {
 
   const dispatch = useAppDispatch();
 
+  const defaultValues = {
+    username: "shovo123",
+    password: "Shovo123@",
+  };
+
   const handleLogin = async (data: FieldValues) => {
     console.log(data);
     const toastId = toast.loading("Log in loading");
@@ -47,7 +52,7 @@ function Login() {
 
   return (
     <Row justify={"center"} align={"middle"} style={{ height: "100vh" }}>
-      <CRForm onSubmit={handleLogin}>
+      <CRForm onSubmit={handleLogin} defaultValues={defaultValues}>
         <CRInput type="text" name="username" label="Username:" />
         <CRInput type="text" name="password" label="Password:" />
         <Button htmlType="submit">Login</Button>
