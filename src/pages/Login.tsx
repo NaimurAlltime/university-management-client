@@ -11,12 +11,6 @@ import CRInput from "../components/form/CRInput";
 
 function Login() {
   const navigate = useNavigate();
-  // const { register, handleSubmit } = useForm({
-  //   defaultValues: {
-  //     username: "shovo123",
-  //     password: "Shovo123@",
-  //   },
-  // });
   const [login] = useLoginMutation();
 
   const dispatch = useAppDispatch();
@@ -27,7 +21,6 @@ function Login() {
   };
 
   const handleLogin = async (data: FieldValues) => {
-    console.log(data);
     const toastId = toast.loading("Log in loading");
     try {
       const userInfo = {
