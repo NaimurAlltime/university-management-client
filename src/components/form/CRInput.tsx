@@ -12,9 +12,10 @@ function CRInput({ type, name, label }: TInputProps) {
     <div style={{ marginBottom: "15px" }}>
       <Controller
         name={name}
-        render={({ field }) => (
+        render={({ field, fieldState: { error } }) => (
           <Form.Item label={label}>
             <Input {...field} type={type} id={name} size="large" />
+            {error && <small style={{ color: "red" }}> {error.message} </small>}
           </Form.Item>
         )}
       />
