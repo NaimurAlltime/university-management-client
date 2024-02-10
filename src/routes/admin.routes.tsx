@@ -1,4 +1,6 @@
 import AdminDashboard from "../pages/admin/AdminDashboard";
+import CreateCategory from "../pages/admin/CategoryManagement/CreateCategory";
+import GetAllCategory from "../pages/admin/CategoryManagement/GetAllCategory";
 import CreateCourse from "../pages/admin/CourseManagement/CreateCourse";
 import GetAllCourse from "../pages/admin/CourseManagement/GetAllCourse";
 import UpdateCourse from "../pages/admin/CourseManagement/UpdateCourse";
@@ -29,6 +31,21 @@ export const adminPaths = [
         name: "Create Student",
         path: "create-student",
         element: <CreateStudent />,
+      },
+    ],
+  },
+  {
+    name: "Category Management",
+    children: [
+      {
+        name: "Create Category",
+        path: "create-category",
+        element: <CreateCategory />,
+      },
+      {
+        name: "Get All Category",
+        path: "get-all-category",
+        element: <GetAllCategory />,
       },
     ],
   },

@@ -1,3 +1,4 @@
+import { Form } from "antd";
 import { ReactNode } from "react";
 import {
   FieldValues,
@@ -25,7 +26,9 @@ function CRForm({ onSubmit, children, defaultValues }: TFormProps) {
   const methods = useForm(formconfig);
   return (
     <FormProvider {...methods}>
-      <form onSubmit={methods.handleSubmit(onSubmit)}>{children}</form>
+      <Form layout="vertical" onFinish={methods.handleSubmit(onSubmit)}>
+        {children}
+      </Form>
     </FormProvider>
   );
 }
