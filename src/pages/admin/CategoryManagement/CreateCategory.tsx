@@ -11,7 +11,7 @@ function CreateCategory() {
   const [addCategory] = useAddCategoyMutation();
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    console.log(data);
+    // console.log(data);
 
     const categoryData = {
       name: data.name,
