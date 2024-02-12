@@ -22,7 +22,7 @@ const GetAllCourse = () => {
   console.log({ isLoading, isFetching });
 
   const tableData = courseData?.data?.courses?.map(
-    ({ _id, title, instructor, price, startDate, endDate }) => ({
+    ({ _id, title, instructor, price, startDate, endDate }: TTableData) => ({
       key: _id,
       title,
       instructor,
