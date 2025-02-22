@@ -1,5 +1,5 @@
 import { Button, Card, Form, Row, Typography } from "antd"
-import { UserOutlined, LockOutlined } from "@ant-design/icons"
+import { UserOutlined, LockOutlined, EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons"
 import type { FieldValues } from "react-hook-form"
 import { useNavigate } from "react-router-dom"
 import { toast } from "sonner"
@@ -10,10 +10,12 @@ import { type TUser, setUser } from "../redux/features/auth/authSlice"
 import { verifyToken } from "../utils/verifyToken"
 import PHForm from "../components/form/PHForm"
 import PHInput from "../components/form/PHInput"
+import { useState } from "react"
 
 export default function Login() {
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
+  const [passwordVisible, setPasswordVisible] = useState(false)
 
   const defaultValues = {
     userId: "",
@@ -101,10 +103,15 @@ export default function Login() {
 
           <Form.Item label="Password" labelCol={{ span: 24 }} wrapperCol={{ span: 24 }} style={{ marginBottom: 24 }}>
             <PHInput
-              type="password"
+             type={passwordVisible ? "text" : "password"}
               name="password"
               placeholder="Enter your password"
-              prefix={<LockOutlined style={{ color: "#bfbfbf" }} />}
+              prefix={<LockOutlined className="input-icon" />}
+              suffix={
+                <span onClick={() => setPasswordVisible(!passwordVisible)} className="password-toggle">
+                  {passwordVisible ? <EyeOutlined /> : <EyeInvisibleOutlined />}
+                </span>
+              }
               style={{
                 height: 45,
                 borderRadius: 8,

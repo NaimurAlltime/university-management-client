@@ -1,16 +1,22 @@
-import { Form, Input } from 'antd';
-import { Controller } from 'react-hook-form';
+import type React from "react"
+import { Form, Input } from "antd"
+import { Controller } from "react-hook-form"
 
 type TInputProps = {
-  type: string;
-  name: string;
-  label?: string;
-  disabled?: boolean;
-};
+  type: string
+  name: string
+  label?: string
+  disabled?: boolean
+  prefix?: React.ReactNode
+  suffix?: React.ReactNode
+  placeholder?: string
+  size?: "large" | "middle" | "small"
+  style?: React.CSSProperties
+}
 
-const PHInput = ({ type, name, label, disabled }: TInputProps) => {
+const PHInput = ({ type, name, label, disabled, prefix, suffix, placeholder, style  }: TInputProps) => {
   return (
-    <div style={{ marginBottom: '20px' }}>
+    <div style={{ marginBottom: "20px" }}>
       <Controller
         name={name}
         render={({ field }) => (
@@ -19,14 +25,19 @@ const PHInput = ({ type, name, label, disabled }: TInputProps) => {
               {...field}
               type={type}
               id={name}
-              size="large"
+              size="middle"
               disabled={disabled}
+              prefix={prefix}
+              suffix={suffix}
+              placeholder={placeholder}
+              style={style}
             />
           </Form.Item>
         )}
       />
     </div>
-  );
-};
+  )
+}
 
-export default PHInput;
+export default PHInput
+
