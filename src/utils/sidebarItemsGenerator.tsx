@@ -45,7 +45,7 @@ const iconMap: Record<string, IconType> = {
   Settings: FiSettings,
   Profile: FiUser,
   Courses: FiBook,
-  Schedule: FiCalendar,
+  "My Schedule": FiCalendar,
   Documents: FiFileText,
 }
 
