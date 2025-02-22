@@ -44,6 +44,7 @@ const StudentData = () => {
   );
 
   const columns: TableColumnsType<TTableData> = [
+
     {
       title: 'Name',
       key: 'name',
@@ -51,7 +52,7 @@ const StudentData = () => {
     },
 
     {
-      title: 'Roll No.',
+      title: 'User Id',
       key: 'id',
       dataIndex: 'id',
     },
