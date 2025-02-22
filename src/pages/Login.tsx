@@ -16,8 +16,8 @@ export default function Login() {
   const dispatch = useAppDispatch()
 
   const defaultValues = {
-    userId: "2026010016",
-    password: "student123",
+    userId: "",
+    password: "",
   }
 
   const [login] = useLoginMutation()
