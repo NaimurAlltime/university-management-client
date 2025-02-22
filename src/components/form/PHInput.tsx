@@ -1,37 +1,71 @@
-import type React from "react"
 import { Form, Input } from "antd"
 import { Controller } from "react-hook-form"
+import type { RegisterOptions } from "react-hook-form"
+import type { Input as AntInput } from "antd"
 
-type TInputProps = {
-  type: string
+type PHInputProps = {
+  type?: string
   name: string
   label?: string
-  disabled?: boolean
-  prefix?: React.ReactNode
-  suffix?: React.ReactNode
+  required?: boolean
+  value?: string | undefined
   placeholder?: string
-  size?: "large" | "middle" | "small"
-  style?: React.CSSProperties
-}
+  disabled?: boolean
+  rules?: RegisterOptions
+  id?: string
+  size?: "large" | "small"
+} & Partial<typeof AntInput>
 
-const PHInput = ({ type, name, label, disabled, prefix, suffix, placeholder, style  }: TInputProps) => {
+const PHInput = ({
+  type = "text",
+  name,
+  label,
+  required = false,
+  value,
+  placeholder,
+  disabled = false,
+  rules,
+  id,
+  size = "large",
+  ...props
+}: PHInputProps) => {
   return (
     <div style={{ marginBottom: "20px" }}>
       <Controller
         name={name}
-        render={({ field }) => (
-          <Form.Item label={label}>
-            <Input
-              {...field}
-              type={type}
-              id={name}
-              size="middle"
-              disabled={disabled}
-              prefix={prefix}
-              suffix={suffix}
-              placeholder={placeholder}
-              style={style}
-            />
+        rules={rules}
+        render={({ field, fieldState: { error } }) => (
+          <Form.Item label={label} required={required} help={error?.message}>
+            {type === "password" ? (
+              <Input.Password
+                {...field}
+                type={type}
+                size={size}
+                placeholder={placeholder}
+                value={value || field.value}
+                disabled={disabled}
+                {...props}
+              />
+            ) : type === "textarea" ? (
+              <Input.TextArea
+                {...field}
+                size={size}
+                placeholder={placeholder}
+                value={value || field.value}
+                disabled={disabled}
+                {...props}
+              />
+            ) : (
+              <Input
+                {...field}
+                type={type}
+                size={size}
+                placeholder={placeholder}
+                value={value || field.value}
+                disabled={disabled}
+                {...props}
+              />
+            )}
           </Form.Item>
         )}
       />
@@ -40,4 +74,6 @@ const PHInput = ({ type, name, label, disabled, prefix, suffix, placeholder, sty
 }
 
 export default PHInput
+
+
 

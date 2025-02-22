@@ -18,3 +18,12 @@ export type TUserPath = {
   element?: ReactNode;
   children?: TUserPath[];
 };
+
+
+export interface IApiResponse {
+  success: boolean
+  message: string
+  data?: any
+}
+
+

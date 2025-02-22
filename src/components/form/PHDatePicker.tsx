@@ -1,24 +1,42 @@
-import { DatePicker, Form } from 'antd';
-import { Controller } from 'react-hook-form';
+import { DatePicker, Form } from "antd"
+import { Controller } from "react-hook-form"
+import dayjs from "dayjs"
 
-type TDatePickerProps = {
-  name: string;
-  label?: string;
-};
+interface PHDatePickerProps {
+  name: string
+  label?: string
+  required?: boolean
+  rules?: Record<string, any>
+  value?: string
+  onChange?: (val: any) => void
+  size?: "large" | "small"
+}
 
-const PHDatePicker = ({ name, label }: TDatePickerProps) => {
+const PHDatePicker = ({ name, label, required, rules, size, ...props }: PHDatePickerProps) => {
   return (
-    <div style={{ marginBottom: '20px' }}>
+    <div>
       <Controller
         name={name}
-        render={({ field }) => (
-          <Form.Item label={label}>
-            <DatePicker {...field} size="large" style={{ width: '100%' }} />
+        rules={rules}
+        render={({ field, fieldState: { error } }) => (
+          <Form.Item label={label} required={required} help={error?.message}>
+            <DatePicker
+              {...field}
+              style={{ width: "100%" }}
+              size={size}
+              value={field.value ? dayjs(field.value) : null}
+              onChange={(date) => {
+                // Convert to YYYY-MM-DD format when saving to form state
+                field.onChange(date ? date.format("YYYY-MM-DD") : null)
+              }}
+            />
           </Form.Item>
         )}
       />
     </div>
-  );
-};
+  )
+}
 
-export default PHDatePicker;
+export default PHDatePicker
+
+

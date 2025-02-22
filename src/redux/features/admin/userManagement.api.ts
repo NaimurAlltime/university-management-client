@@ -57,6 +57,7 @@ const userManagementApi = baseApi.injectEndpoints({
         url: '/users/create-student',
         method: 'POST',
         body: data,
+        formData: true,
       }),
     }),
     changePassword: builder.mutation({

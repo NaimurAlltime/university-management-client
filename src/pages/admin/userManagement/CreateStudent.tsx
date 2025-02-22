@@ -1,302 +1,304 @@
-import { Controller, FieldValues, SubmitHandler } from 'react-hook-form';
-import PHForm from '../../../components/form/PHForm';
-import PHInput from '../../../components/form/PHInput';
-import { Button, Col, Divider, Form, Input, Row } from 'antd';
-import PHSelect from '../../../components/form/PHSelect';
-import { bloodGroupOptions, genderOptions } from '../../../constants/global';
-import PHDatePicker from '../../../components/form/PHDatePicker';
+import type React from "react"
+import { Button, Col, Row, message } from "antd"
+import { useAddStudentMutation } from "../../../redux/features/admin/userManagement.api"
 import {
-  useGetAcademicDepartmentsQuery,
   useGetAllSemestersQuery,
-} from '../../../redux/features/admin/academicManagement.api';
-import { useAddStudentMutation } from '../../../redux/features/admin/userManagement.api';
+  useGetAcademicDepartmentsQuery,
+} from "../../../redux/features/admin/academicManagement.api"
+import PHForm from "../../../components/form/PHForm"
+import PHInput from "../../../components/form/PHInput"
+import PHSelect from "../../../components/form/PHSelect"
+import PHDatePicker from "../../../components/form/PHDatePicker"
+import { IStudentForm } from "../../../types/student.type"
 
-const studentDummyData = {
-  password: 'student123',
+const defaultValues: IStudentForm = {
+  password: "123456",
   student: {
     name: {
-      firstName: 'I am ',
-      middleName: 'Student',
-      lastName: 'Number 1',
+      firstName: "Naimur",
+      middleName: "Rahman",
+      lastName: "Naim",
     },
-    gender: 'male',
-    dateOfBirth: '1990-01-01',
-    bloogGroup: 'A+',
-
-    email: 'student3@gmail.com',
-    contactNo: '1235678',
-    emergencyContactNo: '987-654-3210',
-    presentAddress: '123 Main St, Cityville',
-    permanentAddress: '456 Oak St, Townsville',
-
+    gender: "male",
+    dateOfBirth: "2002-06-05",
+    email: "naimur@exsample.com",
+    contactNo: "55566677277",
+    emergencyContactNo: "88899902000",
+    bloogGroup: "B-",
+    presentAddress: "234 Elm Street",
+    permanentAddress: "567 Maple Avenue",
     guardian: {
-      fatherName: 'James Doe',
-      fatherOccupation: 'Engineer',
-      fatherContactNo: '111-222-3333',
-      motherName: 'Mary Doe',
-      motherOccupation: 'Teacher',
-      motherContactNo: '444-555-6666',
+      fatherName: "James Wilson",
+      fatherOccupation: "Professor",
+      fatherContactNo: "3334445555",
+      motherName: "Emma Wilson",
+      motherOccupation: "Engineer",
+      motherContactNo: "3332221111",
     },
-
     localGuardian: {
-      name: 'Alice Johnson',
-      occupation: 'Doctor',
-      contactNo: '777-888-9999',
-      address: '789 Pine St, Villageton',
+      name: "Sophie Adams",
+      occupation: "Artist",
+      contactNo: "6667778888",
+      address: "890 Oak Street",
     },
-
-    admissionSemester: '65bb60ebf71fdd1add63b1c0',
-    academicDepartment: '65b4acae3dc8d4f3ad83e416',
+    admissionSemester: "67b8e989e1b9f767e9f3809a",
+    academicDepartment: "67b8ed9de1b9f767e9f380b1",
   },
-};
+}
 
-//! This is only for development
-//! Should be removed
-const studentDefaultValues = {
-  name: {
-    firstName: 'I am ',
-    middleName: 'Student',
-    lastName: 'Number 1',
-  },
-  gender: 'male',
+const genderOptions = [
+  { value: "male", label: "Male" },
+  { value: "female", label: "Female" },
+  { value: "other", label: "Other" },
+]
 
-  bloogGroup: 'A+',
+const bloodGroupOptions = [
+  { value: "A+", label: "A+" },
+  { value: "A-", label: "A-" },
+  { value: "B+", label: "B+" },
+  { value: "B-", label: "B-" },
+  { value: "AB+", label: "AB+" },
+  { value: "AB-", label: "AB-" },
+  { value: "O+", label: "O+" },
+  { value: "O-", label: "O-" },
+]
 
-  contactNo: '1235678',
-  emergencyContactNo: '987-654-3210',
-  presentAddress: '123 Main St, Cityville',
-  permanentAddress: '456 Oak St, Townsville',
+const CreateStudent: React.FC = () => {
+  const [addStudent, { isLoading }] = useAddStudentMutation()
+  const { data: semesters, isLoading: semestersLoading } = useGetAllSemestersQuery(undefined)
+  const { data: departments, isLoading: departmentsLoading } = useGetAcademicDepartmentsQuery(undefined)
 
-  guardian: {
-    fatherName: 'James Doe',
-    fatherOccupation: 'Engineer',
-    fatherContactNo: '111-222-3333',
-    motherName: 'Mary Doe',
-    motherOccupation: 'Teacher',
-    motherContactNo: '444-555-6666',
-  },
+  const onSubmit = async (data: IStudentForm) => {
+    try {
+      const formData = new FormData()
+      formData.append("data", JSON.stringify(data))
 
-  localGuardian: {
-    name: 'Alice Johnson',
-    occupation: 'Doctor',
-    contactNo: '777-888-9999',
-    address: '789 Pine St, Villageton',
-  },
+      const result = await addStudent(formData).unwrap()
+      if (result.success) {
+        message.success("Student created successfully")
+      } else {
+        message.error(result.message || "Failed to create student")
+      }
+    } catch (error) {
+      message.error("An error occurred while creating the student")
+      console.error(error)
+    }
+  }
 
-  admissionSemester: '65bb60ebf71fdd1add63b1c0',
-  academicDepartment: '65b4acae3dc8d4f3ad83e416',
-};
+  const semesterOptions = semesters?.data?.map((semester) => ({
+    value: semester._id,
+    label: `${semester.name} ${semester.year}`,
+  }))
 
-const CreateStudent = () => {
-  const [addStudent, { data, error }] = useAddStudentMutation();
-
-  console.log({ data, error });
-
-  const { data: sData, isLoading: sIsLoading } =
-    useGetAllSemestersQuery(undefined);
-
-  const { data: dData, isLoading: dIsLoading } =
-    useGetAcademicDepartmentsQuery(undefined);
-
-  const semesterOptions = sData?.data?.map((item) => ({
-    value: item._id,
-    label: `${item.name} ${item.year}`,
-  }));
-
-  const departmentOptions = dData?.data?.map((item) => ({
-    value: item._id,
-    label: item.name,
-  }));
-
-  const onSubmit: SubmitHandler<FieldValues> = (data) => {
-    const studentData = {
-      password: 'student123',
-      student: data,
-    };
-
-    const formData = new FormData();
-
-    formData.append('data', JSON.stringify(studentData));
-    formData.append('file', data.image);
-
-    addStudent(formData);
-
-    //! This is for development
-    //! Just for checking
-    console.log(Object.fromEntries(formData));
-  };
+  const departmentOptions = departments?.data?.map((department) => ({
+    value: department._id,
+    label: department.name,
+  }))
 
   return (
-    <Row justify="center">
-      <Col span={24}>
-        <PHForm onSubmit={onSubmit} defaultValues={studentDefaultValues}>
-          <Divider>Personal Info.</Divider>
-          <Row gutter={8}>
-            <Col span={24} md={{ span: 12 }} lg={{ span: 8 }}>
-              <PHInput type="text" name="name.firstName" label="First Name" />
-            </Col>
-            <Col span={24} md={{ span: 12 }} lg={{ span: 8 }}>
-              <PHInput type="text" name="name.middleName" label="Middle Name" />
-            </Col>
-            <Col span={24} md={{ span: 12 }} lg={{ span: 8 }}>
-              <PHInput type="text" name="name.lastName" label="Last Name" />
-            </Col>
-            <Col span={24} md={{ span: 12 }} lg={{ span: 8 }}>
-              <PHSelect options={genderOptions} name="gender" label="Gender" />
-            </Col>
-            <Col span={24} md={{ span: 12 }} lg={{ span: 8 }}>
-              <PHDatePicker name="dateOfBirth" label="Date of birth" />
-            </Col>
-            <Col span={24} md={{ span: 12 }} lg={{ span: 8 }}>
-              <PHSelect
-                options={bloodGroupOptions}
-                name="bloogGroup"
-                label="Blood group"
-              />
-            </Col>
-            <Col span={24} md={{ span: 12 }} lg={{ span: 8 }}>
-              <Controller
-                name="image"
-                render={({ field: { onChange, value, ...field } }) => (
-                  <Form.Item label="Picture">
-                    <Input
-                      type="file"
-                      value={value?.fileName}
-                      {...field}
-                      onChange={(e) => onChange(e.target.files?.[0])}
-                    />
-                  </Form.Item>
-                )}
-              />
-            </Col>
-          </Row>
-          <Divider>Contact Info.</Divider>
-          <Row gutter={8}>
-            <Col span={24} md={{ span: 12 }} lg={{ span: 8 }}>
-              <PHInput type="text" name="email" label="Email" />
-            </Col>
-            <Col span={24} md={{ span: 12 }} lg={{ span: 8 }}>
-              <PHInput type="text" name="contactNo" label="Contact" />
-            </Col>
-            <Col span={24} md={{ span: 12 }} lg={{ span: 8 }}>
-              <PHInput
-                type="text"
-                name="emergencyContactNo"
-                label="Emergency Contact"
-              />
-            </Col>
-            <Col span={24} md={{ span: 12 }} lg={{ span: 8 }}>
-              <PHInput
-                type="text"
-                name="presentAddress"
-                label="Present Address"
-              />
-            </Col>
-            <Col span={24} md={{ span: 12 }} lg={{ span: 8 }}>
-              <PHInput
-                type="text"
-                name="permanentAddress"
-                label="Permanent Address"
-              />
-            </Col>
-          </Row>
-          <Divider>Guardian</Divider>
-          <Row gutter={8}>
-            <Col span={24} md={{ span: 12 }} lg={{ span: 8 }}>
-              <PHInput
-                type="text"
-                name="guardian.fatherName"
-                label="Father Name"
-              />
-            </Col>
-            <Col span={24} md={{ span: 12 }} lg={{ span: 8 }}>
-              <PHInput
-                type="text"
-                name="guardian.fatherOccupation"
-                label="Father Occupation"
-              />
-            </Col>
-            <Col span={24} md={{ span: 12 }} lg={{ span: 8 }}>
-              <PHInput
-                type="text"
-                name="guardian.fatherContactNo"
-                label="Father ContactNo"
-              />
-            </Col>
-            <Col span={24} md={{ span: 12 }} lg={{ span: 8 }}>
-              <PHInput
-                type="text"
-                name="guardian.motherName"
-                label="Mother Name"
-              />
-            </Col>
-            <Col span={24} md={{ span: 12 }} lg={{ span: 8 }}>
-              <PHInput
-                type="text"
-                name="guardian.motherOccupation"
-                label="Mother Occupation"
-              />
-            </Col>
-            <Col span={24} md={{ span: 12 }} lg={{ span: 8 }}>
-              <PHInput
-                type="text"
-                name="guardian.motherContactNo"
-                label="Mother ContactNo"
-              />
-            </Col>
-          </Row>
-          <Divider>Local Guardian</Divider>
-          <Row gutter={8}>
-            <Col span={24} md={{ span: 12 }} lg={{ span: 8 }}>
-              <PHInput type="text" name="localGuardian.name" label="Name" />
-            </Col>
-            <Col span={24} md={{ span: 12 }} lg={{ span: 8 }}>
-              <PHInput
-                type="text"
-                name="localGuardian.occupation"
-                label="Occupation"
-              />
-            </Col>
-            <Col span={24} md={{ span: 12 }} lg={{ span: 8 }}>
-              <PHInput
-                type="text"
-                name="localGuardian.contactNo"
-                label="Contact No."
-              />
-            </Col>
-            <Col span={24} md={{ span: 12 }} lg={{ span: 8 }}>
-              <PHInput
-                type="text"
-                name="localGuardian.address"
-                label="Address"
-              />
-            </Col>
-          </Row>
-          <Divider>Academic Info.</Divider>
-          <Row gutter={8}>
-            <Col span={24} md={{ span: 12 }} lg={{ span: 8 }}>
-              <PHSelect
-                options={semesterOptions}
-                disabled={sIsLoading}
-                name="admissionSemester"
-                label="Admission Semester"
-              />
-            </Col>
-            <Col span={24} md={{ span: 12 }} lg={{ span: 8 }}>
-              <PHSelect
-                options={departmentOptions}
-                disabled={dIsLoading}
-                name="academicDepartment"
-                label="Admission Department"
-              />
-            </Col>
-          </Row>
+    <PHForm onSubmit={onSubmit} defaultValues={defaultValues}>
+      <Row gutter={16}>
+        <Col span={8}>
+          <PHInput
+            name="student.name.firstName"
+            label="First Name"
+            required
+            rules={{ required: "First name is required" }}
+          />
+        </Col>
+        <Col span={8}>
+          <PHInput name="student.name.middleName" label="Middle Name" />
+        </Col>
+        <Col span={8}>
+          <PHInput
+            name="student.name.lastName"
+            label="Last Name"
+            required
+            rules={{ required: "Last name is required" }}
+          />
+        </Col>
+      </Row>
 
-          <Button htmlType="submit">Submit</Button>
-        </PHForm>
-      </Col>
-    </Row>
-  );
-};
+      <Row gutter={16}>
+        <Col span={12}>
+          <PHSelect
+            name="student.gender"
+            label="Gender"
+            required
+            options={genderOptions}
+            rules={{ required: "Gender is required" }}
+          />
+        </Col>
+        <Col span={12}>
+          <PHDatePicker
+            name="student.dateOfBirth"
+            label="Date of Birth"
+            required
+            rules={{ required: "Date of birth is required" }}
+          />
+        </Col>
+      </Row>
 
-export default CreateStudent;
+      <Row gutter={16}>
+        <Col span={12}>
+          <PHInput
+            name="student.email"
+            label="Email"
+            required
+            rules={{
+              required: "Email is required",
+              pattern: {
+                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                message: "Invalid email address",
+              },
+            }}
+          />
+        </Col>
+        <Col span={12}>
+          <PHInput
+            name="student.contactNo"
+            label="Contact No"
+            required
+            rules={{ required: "Contact number is required" }}
+          />
+        </Col>
+      </Row>
+
+      <Row gutter={16}>
+        <Col span={12}>
+          <PHInput
+            name="student.emergencyContactNo"
+            label="Emergency Contact No"
+            required
+            rules={{ required: "Emergency contact number is required" }}
+          />
+        </Col>
+        <Col span={12}>
+          <PHSelect
+            name="student.bloogGroup"
+            label="Blood Group"
+            required
+            options={bloodGroupOptions}
+            rules={{ required: "Blood group is required" }}
+          />
+        </Col>
+      </Row>
+
+      <PHInput
+        name="student.presentAddress"
+        label="Present Address"
+        required
+        type="textarea"
+        rules={{ required: "Present address is required" }}
+      />
+
+      <PHInput
+        name="student.permanentAddress"
+        label="Permanent Address"
+        required
+        type="textarea"
+        rules={{ required: "Permanent address is required" }}
+      />
+
+      <Row gutter={16}>
+        <Col span={12}>
+          <PHInput
+            name="student.guardian.fatherName"
+            label="Guardian's Name"
+            required
+            rules={{ required: "Guardian's name is required" }}
+          />
+        </Col>
+        <Col span={12}>
+          <PHInput
+            name="student.guardian.fatherOccupation"
+            label="Guardian's Occupation"
+            required
+            rules={{ required: "Guardian's occupation is required" }}
+          />
+        </Col>
+      </Row>
+
+      <Row gutter={16}>
+        <Col span={12}>
+          <PHInput
+            name="student.guardian.fatherContactNo"
+            label="Guardian's Contact No"
+            required
+            rules={{ required: "Guardian's contact number is required" }}
+          />
+        </Col>
+      </Row>
+
+      <Row gutter={16}>
+        <Col span={12}>
+          <PHInput
+            name="student.localGuardian.name"
+            label="Local Guardian's Name"
+            required
+            rules={{ required: "Local guardian's name is required" }}
+          />
+        </Col>
+        <Col span={12}>
+          <PHInput
+            name="student.localGuardian.occupation"
+            label="Local Guardian's Occupation"
+            required
+            rules={{ required: "Local guardian's occupation is required" }}
+          />
+        </Col>
+      </Row>
+
+      <Row gutter={16}>
+        <Col span={12}>
+          <PHInput
+            name="student.localGuardian.contactNo"
+            label="Local Guardian's Contact No"
+            required
+            rules={{ required: "Local guardian's contact number is required" }}
+          />
+        </Col>
+        <Col span={12}>
+          <PHInput
+            name="student.localGuardian.address"
+            label="Local Guardian's Address"
+            required
+            rules={{ required: "Local guardian's address is required" }}
+          />
+        </Col>
+      </Row>
+
+      <Row gutter={16}>
+        <Col span={12}>
+          <PHSelect
+            name="student.admissionSemester"
+            label="Admission Semester"
+            required
+            options={semesterOptions}
+            loading={semestersLoading}
+            rules={{ required: "Admission semester is required" }}
+          />
+        </Col>
+        <Col span={12}>
+          <PHSelect
+            name="student.academicDepartment"
+            label="Academic Department"
+            required
+            options={departmentOptions}
+            loading={departmentsLoading}
+            rules={{ required: "Academic department is required" }}
+          />
+        </Col>
+      </Row>
+
+      <PHInput name="password" label="Password" required type="password" rules={{ required: "Password is required" }} />
+
+      <Button type="primary" htmlType="submit" loading={isLoading}>
+        Create Student
+      </Button>
+    </PHForm>
+  )
+}
+
+export default CreateStudent
+
