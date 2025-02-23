@@ -1,4 +1,5 @@
-import { TQueryParam, TResponseRedux, TStudent } from '../../../types';
+import { IApiResponse, TQueryParam, TResponseRedux, TStudent } from '../../../types';
+import { IFacultyForm } from '../../../types/faculty.types';
 
 import { baseApi } from '../../api/baseApi';
 
@@ -94,6 +95,15 @@ const userManagementApi = baseApi.injectEndpoints({
         body: data,
       }),
     }),
+
+    addFaculty: builder.mutation<IApiResponse, IFacultyForm>({
+      query: (data) => ({
+        url: "/users/create-faculty",
+        method: "POST",
+        body: data,
+      }),
+    }),
+
     changePassword: builder.mutation({
       query: (data) => ({
         url: '/auth/change-password',
@@ -107,6 +117,7 @@ const userManagementApi = baseApi.injectEndpoints({
 export const {
   useAddStudentMutation,
   useAddAdminMutation,
+  useAddFacultyMutation,
   useGetAllAdminsQuery,
   useGetAllStudentsQuery,
   useGetAllFacultiesQuery,
