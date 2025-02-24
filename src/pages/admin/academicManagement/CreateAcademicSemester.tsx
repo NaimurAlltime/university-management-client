@@ -1,7 +1,7 @@
 import { FieldValues, SubmitHandler } from 'react-hook-form';
-import PHForm from '../../../components/form/PHForm';
+import CForm from '../../../components/form/CForm';
 import { Button, Col, Flex } from 'antd';
-import PHSelect from '../../../components/form/PHSelect';
+import CSelect from '../../../components/form/CSelect';
 import { semesterOptions } from '../../../constants/semester';
 import { monthOptions } from '../../../constants/global';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -49,21 +49,21 @@ const CreateAcademicSemester = () => {
   return (
     <Flex justify="center" align="center">
       <Col span={6}>
-        <PHForm
+        <CForm
           onSubmit={onSubmit}
           resolver={zodResolver(academicSemesterSchema)}
         >
-          <PHSelect label="Name" name="name" options={semesterOptions} />
-          <PHSelect label="Year" name="year" options={yearOptions} />
-          <PHSelect
+          <CSelect label="Name" name="name" options={semesterOptions} />
+          <CSelect label="Year" name="year" options={yearOptions} />
+          <CSelect
             label="Start Month"
             name="startMonth"
             options={monthOptions}
           />
-          <PHSelect label="End Month" name="endMonth" options={monthOptions} />
+          <CSelect label="End Month" name="endMonth" options={monthOptions} />
 
           <Button htmlType="submit">Submit</Button>
-        </PHForm>
+        </CForm>
       </Col>
     </Flex>
   );

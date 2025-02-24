@@ -1,12 +1,12 @@
 import { Controller, useFormContext } from 'react-hook-form';
 import { Form, TimePicker } from 'antd';
 
-type TPHDatePicker = {
+type TCDatePicker = {
   name: string;
   label: string;
 };
 
-const PHTimePicker = ({ name, label }: TPHDatePicker) => {
+const CTimePicker = ({ name, label }: TCDatePicker) => {
   const { control } = useFormContext();
 
   return (
@@ -32,4 +32,4 @@ const PHTimePicker = ({ name, label }: TPHDatePicker) => {
   );
 };
 
-export default PHTimePicker;
+export default CTimePicker;

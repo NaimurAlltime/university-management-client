@@ -1,6 +1,6 @@
 import { Button, Col, Flex } from 'antd';
-import PHForm from '../../components/form/PHForm';
-import PHSelect from '../../components/form/PHSelect';
+import CForm from '../../components/form/CForm';
+import CSelect from '../../components/form/CSelect';
 import { useGetAllFacultyCoursesQuery } from '../../redux/features/faculty/facultyCourses.api';
 import { useNavigate } from 'react-router-dom';
 import { FieldValues, SubmitHandler } from 'react-hook-form';
@@ -28,15 +28,15 @@ const MyCourses = () => {
   return (
     <Flex justify="center" align="center">
       <Col span={6}>
-        <PHForm onSubmit={onSubmit}>
-          <PHSelect
+        <CForm onSubmit={onSubmit}>
+          <CSelect
             options={semesterOptions}
             name="semesterRegistration"
             label="Semester"
           />
-          <PHSelect options={courseOptions} name="course" label="Course" />
+          <CSelect options={courseOptions} name="course" label="Course" />
           <Button htmlType="submit">Submit</Button>
-        </PHForm>
+        </CForm>
       </Col>
     </Flex>
   );

@@ -8,8 +8,8 @@ import { useLoginMutation } from "../redux/features/auth/authApi"
 import { useAppDispatch } from "../redux/hooks"
 import { type TUser, setUser } from "../redux/features/auth/authSlice"
 import { verifyToken } from "../utils/verifyToken"
-import PHForm from "../components/form/PHForm"
-import PHInput from "../components/form/PHInput"
+import CForm from "../components/form/CForm"
+import CInput from "../components/form/CInput"
 import { useState } from "react"
 
 export default function Login() {
@@ -87,9 +87,9 @@ export default function Login() {
           <Typography.Text type="secondary">Please sign in to continue</Typography.Text>
         </div>
 
-        <PHForm onSubmit={onSubmit} defaultValues={defaultValues}>
+        <CForm onSubmit={onSubmit} defaultValues={defaultValues}>
           <Form.Item label="User ID" labelCol={{ span: 24 }} wrapperCol={{ span: 24 }} style={{ marginBottom: 24 }}>
-            <PHInput
+            <CInput
               type="text"
               name="userId"
               placeholder="Enter your ID"
@@ -102,7 +102,7 @@ export default function Login() {
           </Form.Item>
 
           <Form.Item label="Password" labelCol={{ span: 24 }} wrapperCol={{ span: 24 }} style={{ marginBottom: 24 }}>
-            <PHInput
+            <CInput
              type={passwordVisible ? "text" : "password"}
               name="password"
               placeholder="Enter your password"
@@ -133,7 +133,7 @@ export default function Login() {
           >
             Sign In
           </Button>
-        </PHForm>
+        </CForm>
       </Card>
     </Row>
   )

@@ -2,7 +2,7 @@ import { DatePicker, Form } from "antd"
 import { Controller } from "react-hook-form"
 import dayjs from "dayjs"
 
-interface PHDatePickerProps {
+interface CDatePickerProps {
   name: string
   label?: string
   required?: boolean
@@ -12,7 +12,7 @@ interface PHDatePickerProps {
   size?: "large" | "small"
 }
 
-const PHDatePicker = ({ name, label, required, rules, size, ...props }: PHDatePickerProps) => {
+const CDatePicker = ({ name, label, required, rules, size, ...props }: CDatePickerProps) => {
   return (
     <div>
       <Controller
@@ -37,6 +37,6 @@ const PHDatePicker = ({ name, label, required, rules, size, ...props }: PHDatePi
   )
 }
 
-export default PHDatePicker
+export default CDatePicker
 
 

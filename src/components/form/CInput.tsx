@@ -3,7 +3,7 @@ import { Controller } from "react-hook-form"
 import type { RegisterOptions } from "react-hook-form"
 import type { Input as AntInput } from "antd"
 
-type PHInputProps = {
+type CInputProps = {
   type?: string
   name: string
   label?: string
@@ -16,7 +16,7 @@ type PHInputProps = {
   size?: "large" | "small"
 } & Partial<typeof AntInput>
 
-const PHInput = ({
+const CInput = ({
   type = "text",
   name,
   label,
@@ -28,7 +28,7 @@ const PHInput = ({
   id,
   size = "large",
   ...props
-}: PHInputProps) => {
+}: CInputProps) => {
   return (
     <div style={{ marginBottom: "20px" }}>
       <Controller
@@ -73,7 +73,7 @@ const PHInput = ({
   )
 }
 
-export default PHInput
+export default CInput
 
 
 

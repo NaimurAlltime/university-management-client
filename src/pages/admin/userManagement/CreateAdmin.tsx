@@ -2,10 +2,10 @@ import { Button, Col, Row, message } from "antd"
 import dayjs from "dayjs"
 import type { IAdminForm } from "../../../types/admin.types"
 import { useAddAdminMutation } from "../../../redux/features/admin/userManagement.api"
-import PHForm from "../../../components/form/PHForm"
-import PHInput from "../../../components/form/PHInput"
-import PHSelect from "../../../components/form/PHSelect"
-import PHDatePicker from "../../../components/form/PHDatePicker"
+import CForm from "../../../components/form/CForm"
+import CInput from "../../../components/form/CInput"
+import CSelect from "../../../components/form/CSelect"
+import CDatePicker from "../../../components/form/CDatePicker"
 
 const defaultValues: IAdminForm = {
   password: "123456",
@@ -65,16 +65,16 @@ const CreateAdmin = () => {
   }
 
   return (
-    <PHForm onSubmit={onSubmit} defaultValues={defaultValues}>
+    <CForm onSubmit={onSubmit} defaultValues={defaultValues}>
       <Row gutter={16}>
         <Col span={24}>
-          <PHInput name="admin.designation" label="Designation" rules={{ required: "Designation is required" }} />
+          <CInput name="admin.designation" label="Designation" rules={{ required: "Designation is required" }} />
         </Col>
       </Row>
 
       <Row gutter={16}>
         <Col span={8}>
-          <PHInput
+          <CInput
             name="admin.name.firstName"
             label="First Name"
             rules={{
@@ -87,16 +87,16 @@ const CreateAdmin = () => {
           />
         </Col>
         <Col span={8}>
-          <PHInput name="admin.name.middleName" label="Middle Name" />
+          <CInput name="admin.name.middleName" label="Middle Name" />
         </Col>
         <Col span={8}>
-          <PHInput name="admin.name.lastName" label="Last Name" rules={{ required: "Last name is required" }} />
+          <CInput name="admin.name.lastName" label="Last Name" rules={{ required: "Last name is required" }} />
         </Col>
       </Row>
 
       <Row gutter={16}>
         <Col span={12}>
-          <PHSelect
+          <CSelect
             name="admin.gender"
             label="Gender"
             options={genderOptions}
@@ -104,7 +104,7 @@ const CreateAdmin = () => {
           />
         </Col>
         <Col span={12}>
-          <PHDatePicker
+          <CDatePicker
             name="admin.dateOfBirth"
             label="Date of Birth"
             rules={{
@@ -127,7 +127,7 @@ const CreateAdmin = () => {
 
       <Row gutter={16}>
         <Col span={12}>
-          <PHInput
+          <CInput
             name="admin.email"
             label="Email"
             rules={{
@@ -140,43 +140,43 @@ const CreateAdmin = () => {
           />
         </Col>
         <Col span={12}>
-          <PHInput name="admin.contactNo" label="Contact No" rules={{ required: "Contact number is required" }} />
+          <CInput name="admin.contactNo" label="Contact No" rules={{ required: "Contact number is required" }} />
         </Col>
       </Row>
 
       <Row gutter={16}>
         <Col span={12}>
-          <PHInput
+          <CInput
             name="admin.emergencyContactNo"
             label="Emergency Contact No"
             rules={{ required: "Emergency contact number is required" }}
           />
         </Col>
         <Col span={12}>
-          <PHSelect name="admin.bloogGroup" label="Blood Group" options={bloodGroupOptions} />
+          <CSelect name="admin.bloogGroup" label="Blood Group" options={bloodGroupOptions} />
         </Col>
       </Row>
 
-      <PHInput
+      <CInput
         name="admin.presentAddress"
         label="Present Address"
         type="textarea"
         rules={{ required: "Present address is required" }}
       />
 
-      <PHInput
+      <CInput
         name="admin.permanentAddress"
         label="Permanent Address"
         type="textarea"
         rules={{ required: "Permanent address is required" }}
       />
 
-      <PHInput name="password" label="Password" type="password" rules={{ required: "Password is required" }} />
+      <CInput name="password" label="Password" type="password" rules={{ required: "Password is required" }} />
 
       <Button type="primary" htmlType="submit" loading={isLoading}>
         Create Admin
       </Button>
-    </PHForm>
+    </CForm>
   )
 }
 

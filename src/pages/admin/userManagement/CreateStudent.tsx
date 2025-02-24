@@ -5,10 +5,10 @@ import {
   useGetAllSemestersQuery,
   useGetAcademicDepartmentsQuery,
 } from "../../../redux/features/admin/academicManagement.api"
-import PHForm from "../../../components/form/PHForm"
-import PHInput from "../../../components/form/PHInput"
-import PHSelect from "../../../components/form/PHSelect"
-import PHDatePicker from "../../../components/form/PHDatePicker"
+import CForm from "../../../components/form/CForm"
+import CInput from "../../../components/form/CInput"
+import CSelect from "../../../components/form/CSelect"
+import CDatePicker from "../../../components/form/CDatePicker"
 import { IStudentForm } from "../../../types/student.type"
 
 const defaultValues: IStudentForm = {
@@ -96,10 +96,10 @@ const CreateStudent: React.FC = () => {
   }))
 
   return (
-    <PHForm onSubmit={onSubmit} defaultValues={defaultValues}>
+    <CForm onSubmit={onSubmit} defaultValues={defaultValues}>
       <Row gutter={16}>
         <Col span={8}>
-          <PHInput
+          <CInput
             name="student.name.firstName"
             label="First Name"
             required
@@ -107,10 +107,10 @@ const CreateStudent: React.FC = () => {
           />
         </Col>
         <Col span={8}>
-          <PHInput name="student.name.middleName" label="Middle Name" />
+          <CInput name="student.name.middleName" label="Middle Name" />
         </Col>
         <Col span={8}>
-          <PHInput
+          <CInput
             name="student.name.lastName"
             label="Last Name"
             required
@@ -121,7 +121,7 @@ const CreateStudent: React.FC = () => {
 
       <Row gutter={16}>
         <Col span={12}>
-          <PHSelect
+          <CSelect
             name="student.gender"
             label="Gender"
             required
@@ -130,7 +130,7 @@ const CreateStudent: React.FC = () => {
           />
         </Col>
         <Col span={12}>
-          <PHDatePicker
+          <CDatePicker
             name="student.dateOfBirth"
             label="Date of Birth"
             required
@@ -141,7 +141,7 @@ const CreateStudent: React.FC = () => {
 
       <Row gutter={16}>
         <Col span={12}>
-          <PHInput
+          <CInput
             name="student.email"
             label="Email"
             required
@@ -155,7 +155,7 @@ const CreateStudent: React.FC = () => {
           />
         </Col>
         <Col span={12}>
-          <PHInput
+          <CInput
             name="student.contactNo"
             label="Contact No"
             required
@@ -166,7 +166,7 @@ const CreateStudent: React.FC = () => {
 
       <Row gutter={16}>
         <Col span={12}>
-          <PHInput
+          <CInput
             name="student.emergencyContactNo"
             label="Emergency Contact No"
             required
@@ -174,7 +174,7 @@ const CreateStudent: React.FC = () => {
           />
         </Col>
         <Col span={12}>
-          <PHSelect
+          <CSelect
             name="student.bloogGroup"
             label="Blood Group"
             required
@@ -184,7 +184,7 @@ const CreateStudent: React.FC = () => {
         </Col>
       </Row>
 
-      <PHInput
+      <CInput
         name="student.presentAddress"
         label="Present Address"
         required
@@ -192,7 +192,7 @@ const CreateStudent: React.FC = () => {
         rules={{ required: "Present address is required" }}
       />
 
-      <PHInput
+      <CInput
         name="student.permanentAddress"
         label="Permanent Address"
         required
@@ -202,7 +202,7 @@ const CreateStudent: React.FC = () => {
 
       <Row gutter={16}>
         <Col span={12}>
-          <PHInput
+          <CInput
             name="student.guardian.fatherName"
             label="Guardian's Name"
             required
@@ -210,7 +210,7 @@ const CreateStudent: React.FC = () => {
           />
         </Col>
         <Col span={12}>
-          <PHInput
+          <CInput
             name="student.guardian.fatherOccupation"
             label="Guardian's Occupation"
             required
@@ -221,7 +221,7 @@ const CreateStudent: React.FC = () => {
 
       <Row gutter={16}>
         <Col span={12}>
-          <PHInput
+          <CInput
             name="student.guardian.fatherContactNo"
             label="Guardian's Contact No"
             required
@@ -232,7 +232,7 @@ const CreateStudent: React.FC = () => {
 
       <Row gutter={16}>
         <Col span={12}>
-          <PHInput
+          <CInput
             name="student.localGuardian.name"
             label="Local Guardian's Name"
             required
@@ -240,7 +240,7 @@ const CreateStudent: React.FC = () => {
           />
         </Col>
         <Col span={12}>
-          <PHInput
+          <CInput
             name="student.localGuardian.occupation"
             label="Local Guardian's Occupation"
             required
@@ -251,7 +251,7 @@ const CreateStudent: React.FC = () => {
 
       <Row gutter={16}>
         <Col span={12}>
-          <PHInput
+          <CInput
             name="student.localGuardian.contactNo"
             label="Local Guardian's Contact No"
             required
@@ -259,7 +259,7 @@ const CreateStudent: React.FC = () => {
           />
         </Col>
         <Col span={12}>
-          <PHInput
+          <CInput
             name="student.localGuardian.address"
             label="Local Guardian's Address"
             required
@@ -270,7 +270,7 @@ const CreateStudent: React.FC = () => {
 
       <Row gutter={16}>
         <Col span={12}>
-          <PHSelect
+          <CSelect
             name="student.admissionSemester"
             label="Admission Semester"
             required
@@ -280,7 +280,7 @@ const CreateStudent: React.FC = () => {
           />
         </Col>
         <Col span={12}>
-          <PHSelect
+          <CSelect
             name="student.academicDepartment"
             label="Academic Department"
             required
@@ -291,12 +291,12 @@ const CreateStudent: React.FC = () => {
         </Col>
       </Row>
 
-      <PHInput name="password" label="Password" required type="password" rules={{ required: "Password is required" }} />
+      <CInput name="password" label="Password" required type="password" rules={{ required: "Password is required" }} />
 
       <Button type="primary" htmlType="submit" loading={isLoading}>
         Create Student
       </Button>
-    </PHForm>
+    </CForm>
   )
 }
 

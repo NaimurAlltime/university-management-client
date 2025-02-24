@@ -8,7 +8,7 @@ type SelectOptions = {
   disabled?: boolean
 }
 
-type PHSelectProps = {
+type CSelectProps = {
   name: string
   label?: string
   required?: boolean
@@ -21,7 +21,7 @@ type PHSelectProps = {
   loading?: boolean
 }
 
-const PHSelect = ({
+const CSelect = ({
   name,
   label,
   required = false,
@@ -32,7 +32,7 @@ const PHSelect = ({
   placeholder = "Select",
   mode,
   loading = false,
-}: PHSelectProps) => {
+}: CSelectProps) => {
   return (
     <div style={{ marginBottom: "20px" }}>
       <Controller
@@ -57,6 +57,6 @@ const PHSelect = ({
   )
 }
 
-export default PHSelect
+export default CSelect
 
 

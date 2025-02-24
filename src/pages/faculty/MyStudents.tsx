@@ -5,9 +5,9 @@ import {
 } from '../../redux/features/faculty/facultyCourses.api';
 import { Button, Modal, Table, TableColumnsType } from 'antd';
 import { useState } from 'react';
-import PHForm from '../../components/form/PHForm';
-import PHSelect from '../../components/form/PHSelect';
-import PHInput from '../../components/form/PHInput';
+import CForm from '../../components/form/CForm';
+import CSelect from '../../components/form/CSelect';
+import CInput from '../../components/form/CInput';
 
 const MyStudents = () => {
   const { registerSemesterId, courseId } = useParams();
@@ -97,13 +97,13 @@ const AddMarksModal = ({ studentInfo }) => {
         onCancel={handleCancel}
         footer={null}
       >
-        <PHForm onSubmit={handleSubmit}>
-          <PHInput type="text" name="classTest1" label="Class Test 1" />
-          <PHInput type="text" name="classTest2" label="Class Test 2" />
-          <PHInput type="text" name="midTerm" label="Midterm" />
-          <PHInput type="text" name="finalTerm" label="Final" />
+        <CForm onSubmit={handleSubmit}>
+          <CInput type="text" name="classTest1" label="Class Test 1" />
+          <CInput type="text" name="classTest2" label="Class Test 2" />
+          <CInput type="text" name="midTerm" label="Midterm" />
+          <CInput type="text" name="finalTerm" label="Final" />
           <Button htmlType="submit">Submit</Button>
-        </PHForm>
+        </CForm>
       </Modal>
     </>
   );
