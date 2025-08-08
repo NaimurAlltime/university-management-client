@@ -1,295 +1,209 @@
-import type React from "react"
-import { useForm, Controller } from "react-hook-form"
-import { Button, Col, DatePicker, Form, Input, Row, Select, message } from "antd"
-import type { IFacultyForm } from "../../../types/faculty.types"
+import { Button, Col, Row, message } from "antd"
+import CForm from "../../../components/form/CForm"
+import CInput from "../../../components/form/CInput"
+import CSelect from "../../../components/form/CSelect"
+import CDatePicker from "../../../components/form/CDatePicker"
 import { useAddFacultyMutation } from "../../../redux/features/admin/userManagement.api"
 import { useGetAcademicDepartmentsQuery } from "../../../redux/features/admin/academicManagement.api"
-import dayjs from "dayjs"
+import type { IFacultyForm } from "../../../types/faculty.types"
 
-const { Option } = Select
+const genderOptions = [
+  { value: "male", label: "Male" },
+  { value: "female", label: "Female" },
+  { value: "other", label: "Other" },
+]
+
+const bloodGroupOptions = [
+  { value: "A+", label: "A+" },
+  { value: "A-", label: "A-" },
+  { value: "B+", label: "B+" },
+  { value: "B-", label: "B-" },
+  { value: "AB+", label: "AB+" },
+  { value: "AB-", label: "AB-" },
+  { value: "O+", label: "O+" },
+  { value: "O-", label: "O-" },
+]
 
 const defaultValues: IFacultyForm = {
   password: "123456",
   faculty: {
-    designation: "Professor",
+    designation: "",
     name: {
-      firstName: "Monir",
-      middleName: "Ahmed",
-      lastName: "Miraj",
+      firstName: "",
+      middleName: "",
+      lastName: "",
     },
     gender: "male",
-    dateOfBirth: dayjs("1980-05-15").format("YYYY-MM-DD"),
-    email: "johsndoe@example.com",
-    contactNo: "+1234567890",
-    emergencyContactNo: "+1987654321",
-    bloogGroup: "AB+",
-    presentAddress: "123 Main Street, City",
-    permanentAddress: "456 Elm Street, Town",
-    academicDepartment: "67b8ed0ae1b9f767e9f380aa",
-  }
+    dateOfBirth: "",
+    email: "",
+    contactNo: "",
+    emergencyContactNo: "",
+    bloogGroup: "A+",
+    presentAddress: "",
+    permanentAddress: "",
+    academicDepartment: "",
+  },
 }
 
-const CreateFaculty: React.FC = () => {
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<IFacultyForm>({
-    defaultValues,
-  })
+const CreateFaculty = () => {
   const [addFaculty, { isLoading }] = useAddFacultyMutation()
   const { data: departments, isLoading: departmentsLoading } = useGetAcademicDepartmentsQuery(undefined)
+
+  const departmentOptions =
+    departments?.data?.map((dep) => ({ value: dep._id, label: dep.name })) || []
 
   const onSubmit = async (data: IFacultyForm) => {
     try {
       const formData = new FormData()
-      formData.append(
-        "data",
-        JSON.stringify({
-          password: data.password,
-          faculty: {
-            ...data.faculty,
-            name: {
-              firstName: data.faculty.name.firstName,
-              middleName: data.faculty.name.middleName,
-              lastName: data.faculty.name.lastName,
-            },
-          },
-        }),
-      )
+      formData.append("data", JSON.stringify(data))
 
-      const result = await addFaculty(formData).unwrap()
-      if (result.success) {
+      const res = await addFaculty(formData as any).unwrap()
+      if (res?.success) {
         message.success("Faculty created successfully")
       } else {
-        message.error(result.message || "Failed to create faculty")
+        message.error(res?.message || "Failed to create faculty")
       }
-    } catch (error) {
-      message.error("An error occurred while creating the faculty")
+    } catch (error: any) {
+      message.error(error?.data?.message || "An error occurred while creating the faculty")
+      // eslint-disable-next-line no-console
       console.error(error)
     }
   }
 
   return (
-    <Form layout="vertical" onFinish={handleSubmit(onSubmit)}>
+    <CForm onSubmit={onSubmit as any} defaultValues={defaultValues}>
+      {/* Basic Info */}
       <Row gutter={16}>
         <Col span={8}>
-          <Form.Item label="First Name" required>
-            <Controller
-              name="faculty.name.firstName"
-              control={control}
-              rules={{ required: "First name is required" }}
-              render={({ field }) => <Input {...field} />}
-            />
-            {errors.faculty?.name?.firstName && (
-              <span style={{ color: "red" }}>{errors.faculty.name.firstName.message}</span>
-            )}
-          </Form.Item>
+          <CInput
+            name="faculty.name.firstName"
+            label="First Name"
+            required
+            rules={{ required: "First name is required" }}
+          />
         </Col>
         <Col span={8}>
-          <Form.Item label="Middle Name">
-            <Controller name="faculty.name.middleName" control={control} render={({ field }) => <Input {...field} />} />
-          </Form.Item>
+          <CInput name="faculty.name.middleName" label="Middle Name" />
         </Col>
         <Col span={8}>
-          <Form.Item label="Last Name" required>
-            <Controller
-              name="faculty.name.lastName"
-              control={control}
-              rules={{ required: "Last name is required" }}
-              render={({ field }) => <Input {...field} />}
-            />
-            {errors.faculty?.name?.lastName && (
-              <span style={{ color: "red" }}>{errors.faculty.name.lastName.message}</span>
-            )}
-          </Form.Item>
+          <CInput
+            name="faculty.name.lastName"
+            label="Last Name"
+            required
+            rules={{ required: "Last name is required" }}
+          />
         </Col>
       </Row>
 
       <Row gutter={16}>
         <Col span={12}>
-          <Form.Item label="Designation" required>
-            <Controller
-              name="faculty.designation"
-              control={control}
-              rules={{ required: "Designation is required" }}
-              render={({ field }) => <Input {...field} />}
-            />
-            {errors.faculty?.designation && <span style={{ color: "red" }}>{errors.faculty.designation.message}</span>}
-          </Form.Item>
+          <CInput
+            name="faculty.designation"
+            label="Designation"
+            required
+            rules={{ required: "Designation is required" }}
+          />
         </Col>
         <Col span={12}>
-          <Form.Item label="Gender" required>
-            <Controller
-              name="faculty.gender"
-              control={control}
-              rules={{ required: "Gender is required" }}
-              render={({ field }) => (
-                <Select {...field}>
-                  <Option value="male">Male</Option>
-                  <Option value="female">Female</Option>
-                  <Option value="other">Other</Option>
-                </Select>
-              )}
-            />
-            {errors.faculty?.gender && <span style={{ color: "red" }}>{errors.faculty.gender.message}</span>}
-          </Form.Item>
+          <CSelect
+            name="faculty.gender"
+            label="Gender"
+            required
+            options={genderOptions}
+            rules={{ required: "Gender is required" }}
+          />
         </Col>
       </Row>
 
       <Row gutter={16}>
         <Col span={12}>
-          <Form.Item label="Date of Birth" required>
-            <Controller
-              name="faculty.dateOfBirth"
-              control={control}
-              rules={{ required: "Date of birth is required" }}
-              render={({ field }) => (
-                <DatePicker
-                  {...field}
-                  style={{ width: "100%" }}
-                  value={field.value ? dayjs(field.value) : null}
-                  onChange={(date) => field.onChange(date ? date.format("YYYY-MM-DD") : null)}
-                />
-              )}
-            />
-            {errors.faculty?.dateOfBirth && <span style={{ color: "red" }}>{errors.faculty.dateOfBirth.message}</span>}
-          </Form.Item>
+          <CDatePicker
+            name="faculty.dateOfBirth"
+            label="Date of Birth"
+            required
+            rules={{ required: "Date of birth is required" }}
+          />
         </Col>
         <Col span={12}>
-          <Form.Item label="Email" required>
-            <Controller
-              name="faculty.email"
-              control={control}
-              rules={{
-                required: "Email is required",
-                pattern: {
-                  value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                  message: "Invalid email address",
-                },
-              }}
-              render={({ field }) => <Input {...field} />}
-            />
-            {errors.faculty?.email && <span style={{ color: "red" }}>{errors.faculty.email.message}</span>}
-          </Form.Item>
+          <CInput
+            name="faculty.email"
+            label="Email"
+            required
+            rules={{
+              required: "Email is required",
+              pattern: {
+                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                message: "Invalid email address",
+              },
+            }}
+          />
         </Col>
       </Row>
 
       <Row gutter={16}>
         <Col span={12}>
-          <Form.Item label="Contact No" required>
-            <Controller
-              name="faculty.contactNo"
-              control={control}
-              rules={{ required: "Contact number is required" }}
-              render={({ field }) => <Input {...field} />}
-            />
-            {errors.faculty?.contactNo && <span style={{ color: "red" }}>{errors.faculty.contactNo.message}</span>}
-          </Form.Item>
+          <CInput
+            name="faculty.contactNo"
+            label="Contact No"
+            required
+            rules={{ required: "Contact number is required" }}
+          />
         </Col>
         <Col span={12}>
-          <Form.Item label="Emergency Contact No" required>
-            <Controller
-              name="faculty.emergencyContactNo"
-              control={control}
-              rules={{ required: "Emergency contact number is required" }}
-              render={({ field }) => <Input {...field} />}
-            />
-            {errors.faculty?.emergencyContactNo && (
-              <span style={{ color: "red" }}>{errors.faculty.emergencyContactNo.message}</span>
-            )}
-          </Form.Item>
+          <CInput
+            name="faculty.emergencyContactNo"
+            label="Emergency Contact No"
+            required
+            rules={{ required: "Emergency contact number is required" }}
+          />
         </Col>
       </Row>
 
       <Row gutter={16}>
         <Col span={12}>
-          <Form.Item label="Blood Group" required>
-            <Controller
-              name="faculty.bloogGroup"
-              control={control}
-              rules={{ required: "Blood group is required" }}
-              render={({ field }) => (
-                <Select {...field}>
-                  <Option value="A+">A+</Option>
-                  <Option value="A-">A-</Option>
-                  <Option value="B+">B+</Option>
-                  <Option value="B-">B-</Option>
-                  <Option value="AB+">AB+</Option>
-                  <Option value="AB-">AB-</Option>
-                  <Option value="O+">O+</Option>
-                  <Option value="O-">O-</Option>
-                </Select>
-              )}
-            />
-            {errors.faculty?.bloogGroup && <span style={{ color: "red" }}>{errors.faculty.bloogGroup.message}</span>}
-          </Form.Item>
+          <CSelect
+            name="faculty.bloogGroup"
+            label="Blood Group"
+            required
+            options={bloodGroupOptions}
+            rules={{ required: "Blood group is required" }}
+          />
         </Col>
         <Col span={12}>
-          <Form.Item label="Academic Department" required>
-            <Controller
-              name="faculty.academicDepartment"
-              control={control}
-              rules={{ required: "Academic department is required" }}
-              render={({ field }) => (
-                <Select {...field} loading={departmentsLoading}>
-                  {departments?.data?.map((department) => (
-                    <Option key={department._id} value={department._id}>
-                      {department.name}
-                    </Option>
-                  ))}
-                </Select>
-              )}
-            />
-            {errors.faculty?.academicDepartment && (
-              <span style={{ color: "red" }}>{errors.faculty.academicDepartment.message}</span>
-            )}
-          </Form.Item>
+          <CSelect
+            name="faculty.academicDepartment"
+            label="Academic Department"
+            required
+            options={departmentOptions}
+            loading={departmentsLoading}
+            rules={{ required: "Academic department is required" }}
+          />
         </Col>
       </Row>
 
-      <Form.Item label="Present Address" required>
-        <Controller
-          name="faculty.presentAddress"
-          control={control}
-          rules={{ required: "Present address is required" }}
-          render={({ field }) => <Input.TextArea {...field} />}
-        />
-        {errors.faculty?.presentAddress && (
-          <span style={{ color: "red" }}>{errors.faculty.presentAddress.message}</span>
-        )}
-      </Form.Item>
+      <CInput
+        name="faculty.presentAddress"
+        label="Present Address"
+        type="textarea"
+        required
+        rules={{ required: "Present address is required" }}
+      />
 
-      <Form.Item label="Permanent Address" required>
-        <Controller
-          name="faculty.permanentAddress"
-          control={control}
-          rules={{ required: "Permanent address is required" }}
-          render={({ field }) => <Input.TextArea {...field} />}
-        />
-        {errors.faculty?.permanentAddress && (
-          <span style={{ color: "red" }}>{errors.faculty.permanentAddress.message}</span>
-        )}
-      </Form.Item>
+      <CInput
+        name="faculty.permanentAddress"
+        label="Permanent Address"
+        type="textarea"
+        required
+        rules={{ required: "Permanent address is required" }}
+      />
 
-      <Form.Item label="Password" required>
-        <Controller
-          name="password"
-          control={control}
-          rules={{ required: "Password is required" }}
-          render={({ field }) => <Input.Password {...field} />}
-        />
-        {errors.password && <span style={{ color: "red" }}>{errors.password.message}</span>}
-      </Form.Item>
+      <CInput name="password" label="Password" type="password" required rules={{ required: "Password is required" }} />
 
-      <Form.Item>
-        <Button type="primary" htmlType="submit" loading={isLoading}>
-          Create Faculty
-        </Button>
-      </Form.Item>
-    </Form>
+      <Button type="primary" htmlType="submit" loading={isLoading}>
+        Create Faculty
+      </Button>
+    </CForm>
   )
 }
 
 export default CreateFaculty
-

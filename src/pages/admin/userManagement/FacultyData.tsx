@@ -13,9 +13,9 @@ const FacultyData = () => {
       },
     },
     {
-        title: 'User Id',
-        dataIndex: 'id',
-      },
+      title: "User Id",
+      dataIndex: "id",
+    },
     {
       title: "Email",
       dataIndex: "email",
@@ -32,7 +32,7 @@ const FacultyData = () => {
 
   return (
     <div>
-      <h1>Admin List</h1>
+      <h1>Faculty List</h1>
       <Table
         loading={isLoading}
         columns={columns}
@@ -47,5 +47,3 @@ const FacultyData = () => {
 }
 
 export default FacultyData
-
-
