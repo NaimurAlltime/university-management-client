@@ -65,7 +65,7 @@ const CreateAdmin = () => {
   }
 
   return (
-    <CForm onSubmit={onSubmit} defaultValues={defaultValues}>
+    <CForm onSubmit={onSubmit as any} defaultValues={defaultValues}>
       <Row gutter={16}>
         <Col span={24}>
           <CInput name="admin.designation" label="Designation" rules={{ required: "Designation is required" }} />
