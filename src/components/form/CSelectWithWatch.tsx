@@ -1,33 +1,34 @@
-import { Form, Select } from 'antd';
-import { useEffect } from 'react';
-import { Controller, useFormContext, useWatch } from 'react-hook-form';
+"use client"
+
+import { Form, Select } from "antd"
+import { useEffect } from "react"
+import { Controller, useFormContext, useWatch } from "react-hook-form"
+
+type Option = { value: string; label: string; disabled?: boolean }
 
 type TCSelectProps = {
-  label: string;
-  name: string;
-  options: { value: string; label: string; disabled?: boolean }[] | undefined;
-  disabled?: boolean;
-  mode?: 'multiple' | undefined;
-  onValueChange: React.Dispatch<React.SetStateAction<string>>;
-};
+  label: string
+  name: string
+  options: Option[] | undefined
+  disabled?: boolean
+  mode?: "multiple" | undefined
+  placeholder?: string
+  // Make onValueChange optional and accept any value type (string | string[] | undefined)
+  onValueChange?: (value: unknown) => void
+}
 
-const CSelectWithWatch = ({
-  label,
-  name,
-  options,
-  disabled,
-  mode,
-  onValueChange,
-}: TCSelectProps) => {
-  const method = useFormContext();
+const CSelectWithWatch = ({ label, name, options, disabled, mode, placeholder, onValueChange }: TCSelectProps) => {
+  const methods = useFormContext()
   const inputValue = useWatch({
-    control: method.control,
+    control: methods.control,
     name,
-  });
+  })
 
   useEffect(() => {
-    onValueChange(inputValue);
-  }, [inputValue]);
+    if (typeof onValueChange === "function") {
+      onValueChange(inputValue)
+    }
+  }, [inputValue, onValueChange])
 
   return (
     <Controller
@@ -36,17 +37,20 @@ const CSelectWithWatch = ({
         <Form.Item label={label}>
           <Select
             mode={mode}
-            style={{ width: '100%' }}
+            style={{ width: "100%" }}
             {...field}
             options={options}
             size="large"
             disabled={disabled}
+            placeholder={placeholder}
+            optionFilterProp="label"
+            showSearch
           />
-          {error && <small style={{ color: 'red' }}>{error.message}</small>}
+          {error && <small style={{ color: "red" }}>{error.message}</small>}
         </Form.Item>
       )}
     />
-  );
-};
+  )
+}
 
-export default CSelectWithWatch;
+export default CSelectWithWatch
