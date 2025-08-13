@@ -1,140 +1,135 @@
-import {
-  TCourse,
-  TQueryParam,
-  TResponseRedux,
-  TSemester,
-  TOfferedCourse,
-} from '../../../types';
-import { baseApi } from '../../api/baseApi';
+import type { TCourse, TQueryParam, TResponseRedux, TSemester, TOfferedCourse } from "../../../types"
+import { baseApi } from "../../api/baseApi"
 
 const courseManagementApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getAllRegisteredSemesters: builder.query({
       query: (args) => {
-        const params = new URLSearchParams();
+        const params = new URLSearchParams()
 
         if (args) {
           args.forEach((item: TQueryParam) => {
-            params.append(item.name, item.value as string);
-          });
+            params.append(item.name, item.value as string)
+          })
         }
 
         return {
-          url: '/semester-registrations',
-          method: 'GET',
+          url: "/semester-registrations",
+          method: "GET",
           params: params,
-        };
+        }
       },
-      providesTags: ['semester'],
+      providesTags: ["semester"],
       transformResponse: (response: TResponseRedux<TSemester[]>) => {
         return {
           data: response.data,
           meta: response.meta,
-        };
+        }
       },
     }),
     addRegisteredSemester: builder.mutation({
       query: (data) => ({
-        url: '/semester-registrations/create-semester-registration',
-        method: 'POST',
+        url: "/semester-registrations/create-semester-registration",
+        method: "POST",
         body: data,
       }),
-      invalidatesTags: ['semester'],
+      invalidatesTags: ["semester"],
     }),
     updateRegisteredSemester: builder.mutation({
       query: (args) => ({
         url: `/semester-registrations/${args.id}`,
-        method: 'PATCH',
+        method: "PATCH",
         body: args.data,
       }),
-      invalidatesTags: ['semester'],
+      invalidatesTags: ["semester"],
     }),
     getAllCourses: builder.query({
       query: (args) => {
-        const params = new URLSearchParams();
+        const params = new URLSearchParams()
 
         if (args) {
           args.forEach((item: TQueryParam) => {
-            params.append(item.name, item.value as string);
-          });
+            params.append(item.name, item.value as string)
+          })
         }
 
         return {
-          url: '/courses',
-          method: 'GET',
+          url: "/courses",
+          method: "GET",
           params: params,
-        };
+        }
       },
-      providesTags: ['courses'],
+      providesTags: ["courses"],
       transformResponse: (response: TResponseRedux<TCourse[]>) => {
         return {
           data: response.data,
           meta: response.meta,
-        };
+        }
       },
     }),
     addCourse: builder.mutation({
       query: (data) => ({
         url: `/courses/create-course`,
-        method: 'POST',
+        method: "POST",
         body: data,
       }),
-      invalidatesTags: ['courses'],
+      invalidatesTags: ["courses"],
     }),
     addFaculties: builder.mutation({
       query: (args) => ({
         url: `/courses/${args.courseId}/assign-faculties`,
-        method: 'PUT',
+        method: "PUT",
         body: args.data,
       }),
-      invalidatesTags: ['courses'],
+      invalidatesTags: ["courses", "courseFaculties"],
     }),
     getCourseFaculties: builder.query({
       query: (id) => {
         return {
           url: `/courses/${id}/get-faculties`,
-          method: 'GET',
-        };
+          method: "GET",
+        }
       },
+      providesTags: ["courseFaculties"],
       transformResponse: (response: TResponseRedux<any>) => {
         return {
           data: response.data,
           meta: response.meta,
-        };
+        }
       },
     }),
     createOfferedCourse: builder.mutation({
       query: (data) => ({
         url: `offered-courses/create-offered-course`,
-        method: 'POST',
+        method: "POST",
         body: data,
       }),
-      invalidatesTags: ['courses'],
+      invalidatesTags: ["courses"],
     }),
     getAllOfferedCourses: builder.query({
       query: (args) => {
-        const params = new URLSearchParams();
+        const params = new URLSearchParams()
         if (args) {
           args.forEach((item: TQueryParam) => {
-            params.append(item.name, item.value as string);
-          });
+            params.append(item.name, item.value as string)
+          })
         }
         return {
-          url: '/offered-courses',
-          method: 'GET',
+          url: "/offered-courses",
+          method: "GET",
           params,
-        };
+        }
       },
-      providesTags: ['offeredCourse'],
+      providesTags: ["offeredCourse"],
       transformResponse: (response: TResponseRedux<TOfferedCourse[]>) => {
         return {
           data: response.data,
           meta: response.meta,
-        };
+        }
       },
     }),
   }),
-});
+})
 
 export const {
   useAddRegisteredSemesterMutation,
@@ -146,4 +141,4 @@ export const {
   useGetCourseFacultiesQuery,
   useCreateOfferedCourseMutation,
   useGetAllOfferedCoursesQuery,
-} = courseManagementApi;
+} = courseManagementApi

@@ -1,3 +1,5 @@
+"use client"
+
 import { Form, Select } from "antd"
 import { Controller } from "react-hook-form"
 import type { RegisterOptions } from "react-hook-form"
@@ -19,6 +21,8 @@ type CSelectProps = {
   placeholder?: string
   mode?: "multiple" | undefined
   loading?: boolean
+  onValueChange?: (value: string | string[]) => void
+  defaultValue?: string | string[]
 }
 
 const CSelect = ({
@@ -32,12 +36,15 @@ const CSelect = ({
   placeholder = "Select",
   mode,
   loading = false,
+  onValueChange,
+  defaultValue,
 }: CSelectProps) => {
   return (
     <div style={{ marginBottom: "20px" }}>
       <Controller
         name={name}
         rules={rules}
+        defaultValue={defaultValue}
         render={({ field, fieldState: { error } }) => (
           <Form.Item label={label} required={required} help={error?.message}>
             <Select
@@ -49,6 +56,12 @@ const CSelect = ({
               mode={mode}
               loading={loading}
               style={{ width: "100%" }}
+              onChange={(value) => {
+                field.onChange(value)
+                if (onValueChange) {
+                  onValueChange(value)
+                }
+              }}
             />
           </Form.Item>
         )}
@@ -58,5 +71,3 @@ const CSelect = ({
 }
 
 export default CSelect
-
-

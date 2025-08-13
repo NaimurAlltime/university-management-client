@@ -75,7 +75,6 @@ const academicManagementApi = baseApi.injectEndpoints({
         method: "POST",
         body: data,
       }),
-      invalidatesTags: ['academic-department'],
     }),
   }),
 })
@@ -85,5 +84,6 @@ export const {
   useAddAcademicSemesterMutation,
   useGetAcademicDepartmentsQuery,
   useGetAcademicFacultiesQuery,
-  useAddAcademicDepartmentMutation, // added
+  useAddAcademicDepartmentMutation,
+  useAddAcademicFacultyMutation,
 } = academicManagementApi
