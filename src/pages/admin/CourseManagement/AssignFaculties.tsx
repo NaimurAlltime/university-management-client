@@ -63,7 +63,7 @@ const AssignFaculties = () => {
       return
     }
 
-    const toastId = toast.loading("Assigning faculties...")
+    // const toastId = toast.loading("Assigning faculties...")
 
     try {
       const res = (await addFaculties({
@@ -72,15 +72,15 @@ const AssignFaculties = () => {
       })) as TResponseRedux<any>
 
       if (res.error) {
-        toast.error(res.error.data.message, { id: toastId })
+        toast.error(res.error.data.message || "Failed to assign faculties")
       } else {
-        message.success("Faculties assigned successfully", { id: toastId })
+        message.success("Faculties assigned successfully")
         await refetchAssignedFaculties()
       }
     } catch (err) {
       console.error("Assignment error:", err)
       // toast.error("Something went wrong", { id: toastId })
-      message.success("Faculties assigned successfully")
+      // message.success("Faculties assigned successfully")
     }
   }
 

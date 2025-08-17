@@ -32,6 +32,13 @@ const academicManagementApi = baseApi.injectEndpoints({
           meta: response.meta,
         }
       },
+      providesTags: (result: any) =>
+        result
+          ? [
+              ...result.data.map(({ _id }: any) => ({ type: 'academic-semester' as const, id: _id })),
+              { type: 'academic-semester', id: 'LIST' },
+            ]
+          : [{ type: 'academic-semester', id: 'LIST' }],
     }),
     addAcademicSemester: builder.mutation({
       query: (data) => ({
@@ -39,6 +46,7 @@ const academicManagementApi = baseApi.injectEndpoints({
         method: "POST",
         body: data,
       }),
+      invalidatesTags: [{ type: 'academic-semester', id: 'LIST' }],
     }),
     getAcademicFaculties: builder.query({
       query: () => {
@@ -50,6 +58,13 @@ const academicManagementApi = baseApi.injectEndpoints({
           meta: response.meta,
         }
       },
+      providesTags: (result: any) =>
+        result
+          ? [
+              ...result.data.map(({ _id }: any) => ({ type: 'academic-faculty' as const, id: _id })),
+              { type: 'academic-faculty', id: 'LIST' },
+            ]
+          : [{ type: 'academic-faculty', id: 'LIST' }],
     }),
     addAcademicFaculty: builder.mutation({
       query: (data) => ({
@@ -57,6 +72,7 @@ const academicManagementApi = baseApi.injectEndpoints({
         method: "POST",
         body: data,
       }),
+      invalidatesTags: [{ type: 'academic-faculty', id: 'LIST' }],
     }),
     getAcademicDepartments: builder.query({
       query: () => {
@@ -68,6 +84,13 @@ const academicManagementApi = baseApi.injectEndpoints({
           meta: response.meta,
         }
       },
+      providesTags: (result: any) =>
+        result
+          ? [
+              ...result.data.map(({ _id }: any) => ({ type: 'academic-department' as const, id: _id })),
+              { type: 'academic-department', id: 'LIST' },
+            ]
+          : [{ type: 'academic-department', id: 'LIST' }],
     }),
     addAcademicDepartment: builder.mutation({
       query: (data) => ({
@@ -75,6 +98,7 @@ const academicManagementApi = baseApi.injectEndpoints({
         method: "POST",
         body: data,
       }),
+      invalidatesTags: [{ type: 'academic-department', id: 'LIST' }],
     }),
   }),
 })

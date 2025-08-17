@@ -52,6 +52,13 @@ const userManagementApi = baseApi.injectEndpoints({
           meta: response.meta,
         };
       },
+      providesTags: (result: any) =>
+        result
+          ? [
+              ...result.data.map(({ _id }: any) => ({ type: 'faculty' as const, id: _id })),
+              { type: 'faculty', id: 'LIST' },
+            ]
+          : [{ type: 'faculty', id: 'LIST' }],
     }),
 
     getAllAdmins: builder.query({
@@ -77,6 +84,13 @@ const userManagementApi = baseApi.injectEndpoints({
           meta: response.meta,
         };
       },
+      providesTags: (result: any) =>
+        result
+          ? [
+              ...result.data.map(({ _id }: any) => ({ type: 'admin' as const, id: _id })),
+              { type: 'admin', id: 'LIST' },
+            ]
+          : [{ type: 'admin', id: 'LIST' }],
     }),
 
     addStudent: builder.mutation({
@@ -86,6 +100,7 @@ const userManagementApi = baseApi.injectEndpoints({
         body: data,
         formData: true,
       }),
+      invalidatesTags: [{ type: 'student', id: 'LIST' }],
     }), 
 
     addAdmin: builder.mutation({
@@ -94,6 +109,7 @@ const userManagementApi = baseApi.injectEndpoints({
         method: "POST",
         body: data,
       }),
+      invalidatesTags: [{ type: 'admin', id: 'LIST' }],
     }),
 
     addFaculty: builder.mutation<IApiResponse, IFacultyForm>({
@@ -102,6 +118,7 @@ const userManagementApi = baseApi.injectEndpoints({
         method: "POST",
         body: data,
       }),
+      invalidatesTags: [{ type: 'faculty', id: 'LIST' }],
     }),
 
     changePassword: builder.mutation({

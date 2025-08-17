@@ -36,8 +36,8 @@ const AcademicSemester = () => {
       dataIndex: 'name',
       filters: [
         {
-          text: 'Autumn',
-          value: 'Autumn',
+          text: 'Spring',
+          value: 'Spring',
         },
         {
           text: 'Fall',
