@@ -1,4 +1,4 @@
-import { Button, Card, Form, Row, Typography } from "antd"
+import { Button, Card, Form, message, Row, Typography } from "antd"
 import { UserOutlined, LockOutlined, EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons"
 import type { FieldValues } from "react-hook-form"
 import { useNavigate } from "react-router-dom"
@@ -25,7 +25,7 @@ export default function Login() {
   const [login] = useLoginMutation()
 
   const onSubmit = async (data: FieldValues) => {
-    const toastId = toast.loading("Logging in")
+    // const toastId = toast.loading("Logging in")
 
     try {
       const userInfo = {
@@ -36,7 +36,7 @@ export default function Login() {
 
       const user = verifyToken(res.data.accessToken) as TUser
       dispatch(setUser({ user: user, token: res.data.accessToken }))
-      toast.success("Logged in", { id: toastId, duration: 2000 })
+      message.success("Logged in successfully")
 
       if (res.data.needsPasswordChange) {
         navigate(`/change-password`)
@@ -44,7 +44,7 @@ export default function Login() {
         navigate(`/${user.role}/dashboard`)
       }
     } catch (err) {
-      toast.error("Something went wrong", { id: toastId, duration: 2000 })
+      toast.error("Something went wrong")
     }
   }
 

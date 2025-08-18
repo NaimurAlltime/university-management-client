@@ -78,7 +78,7 @@ const AdminDashboard: React.FC = () => {
             <div style={{ color: "white" }}>
               <div style={{ fontSize: "16px", marginBottom: "8px" }}>Pending Application</div>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                <span style={{ fontSize: "36px", fontWeight: "bold" }}>120</span>
+                <span style={{ fontSize: "36px", fontWeight: "bold" }}>20</span>
                 <RiFilePaper2Fill style={{ fontSize: "24px", opacity: 0.8 }} />
               </div>
             </div>
@@ -96,7 +96,7 @@ const AdminDashboard: React.FC = () => {
             <div style={{ color: "white" }}>
               <div style={{ fontSize: "16px", marginBottom: "8px" }}>Active Student</div>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                <span style={{ fontSize: "36px", fontWeight: "bold" }}>3500</span>
+                <span style={{ fontSize: "36px", fontWeight: "bold" }}>350</span>
                 <FaUserGraduate style={{ fontSize: "24px", opacity: 0.8 }} />
               </div>
             </div>
@@ -114,7 +114,7 @@ const AdminDashboard: React.FC = () => {
             <div style={{ color: "white" }}>
               <div style={{ fontSize: "16px", marginBottom: "8px" }}>Total Staff</div>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                <span style={{ fontSize: "36px", fontWeight: "bold" }}>220</span>
+                <span style={{ fontSize: "36px", fontWeight: "bold" }}>120</span>
                 <FaUserNurse style={{ fontSize: "24px", opacity: 0.8 }} />
               </div>
             </div>

@@ -15,10 +15,11 @@ import RegisteredSemesters from "../pages/admin/courseManagement/RegisteredSemes
 import CreateCourse from "../pages/admin/courseManagement/CreateCourse"
 import OfferCourse from "../pages/admin/courseManagement/OfferCourse"
 import OfferedCourses from "../pages/admin/courseManagement/OfferedCourses"
-import AdminList from "../pages/admin/userManagement/AdminData"
-import FacultyData from "../pages/admin/userManagement/FacultyData"
 import AssignFaculties from "../pages/admin/courseManagement/AssignFaculties"
 import CourseFaculties from "../pages/admin/courseManagement/CourseFaculties"
+import AdminList from "../pages/admin/userManagement/AdminData"
+import FacultyData from "../pages/admin/userManagement/FacultyData"
+import StudentEnrollments from "../pages/admin/courseManagement/StudentEnrollments"
 
 export const adminPaths = [
   {
@@ -138,6 +139,16 @@ export const adminPaths = [
         path: "offered-courses",
         element: <OfferedCourses />,
       },
+      {
+        name: "Student Enrollments",
+        path: "student-enrollments",
+        element: <StudentEnrollments />,
+      },
+      // {
+      //   name: "Enrollment Statistics",
+      //   path: "enrollment-statistics",
+      //   element: <EnrollmentStatistics />,
+      // },
     ],
   },
 ]
