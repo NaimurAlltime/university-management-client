@@ -52,11 +52,11 @@ const MyCourses = () => {
     },
     {
       title: "Days",
-      dataIndex: "days",
-      key: "days",
-      render: (days: string[]) => (
+      dataIndex: "classDays", // Changed from "days" to "classDays" to match backend schema
+      key: "classDays",
+      render: (classDays: string[]) => (
         <div>
-          {days?.map((day) => (
+          {classDays?.map((day) => (
             <Tag key={day} color="orange">
               {day}
             </Tag>

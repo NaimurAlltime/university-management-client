@@ -54,15 +54,15 @@ const MyStudents = () => {
       key: "faculty",
       render: (faculty: string) => <Tag color="green">{faculty}</Tag>,
     },
-    {
-      title: "Enrollment Status",
-      dataIndex: "courseStatus",
-      key: "status",
-      render: (status: string) => {
-        const color = status === "ONGOING" ? "green" : status === "COMPLETED" ? "blue" : "orange"
-        return <Tag color={color}>{status}</Tag>
-      },
-    },
+    // {
+    //   title: "Enrollment Status",
+    //   dataIndex: "courseStatus",
+    //   key: "status",
+    //   render: (status: string) => {
+    //     const color = status === "ONGOING" ? "green" : status === "COMPLETED" ? "blue" : "orange"
+    //     return <Tag color={color}>{status}</Tag>
+    //   },
+    // },
     {
       title: "Grade",
       dataIndex: "grade",

@@ -73,6 +73,6 @@ export const baseApi = createApi({
   tagTypes: ['semester', 'courses', 'offeredCourse', 'faculty', 'courseFaculties', 
     'department', 'student', 'admin', 'academic-semester', 'academic-faculty', 'academic-department',
   "Faculty", "Student", "EnrolledCourse", "Course", "OfferedCourse", "AcademicSemester", "AcademicFaculty", 
-  "AcademicDepartment", "Admin", "enrollments"],
+  "AcademicDepartment", "Admin", "enrollments", "studentEnrollments", "facultyProfile", "studentProfile"],
   endpoints: () => ({}),
 });

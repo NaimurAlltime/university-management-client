@@ -20,6 +20,8 @@ import CourseFaculties from "../pages/admin/courseManagement/CourseFaculties"
 import AdminList from "../pages/admin/userManagement/AdminData"
 import FacultyData from "../pages/admin/userManagement/FacultyData"
 import StudentEnrollments from "../pages/admin/courseManagement/StudentEnrollments"
+import AdminChangePassword from "../pages/admin/AdminChangePassword"
+import AdminProfile from "../pages/admin/AdminProfile"
 
 export const adminPaths = [
   {
@@ -149,6 +151,25 @@ export const adminPaths = [
       //   path: "enrollment-statistics",
       //   element: <EnrollmentStatistics />,
       // },
+    ],
+  },
+    {
+    name: "Profile Management",
+    children: [
+      {
+        name: "My Profile",
+        path: "profile",
+        element: <AdminProfile />,
+      },
+      // {
+      //   path: "profile/edit",
+      //   element: <EditAdminProfile />,
+      // },
+      {
+        name: "Change Password",
+        path: "change-password",
+        element: <AdminChangePassword />,
+      },
     ],
   },
 ]

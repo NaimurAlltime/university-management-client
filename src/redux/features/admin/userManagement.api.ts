@@ -1,107 +1,104 @@
-import { IApiResponse, TQueryParam, TResponseRedux, TStudent } from '../../../types';
-import { IFacultyForm } from '../../../types/faculty.types';
+import type { IApiResponse, TQueryParam, TResponseRedux, TStudent } from "../../../types"
+import type { IFacultyForm } from "../../../types/faculty.types"
 
-import { baseApi } from '../../api/baseApi';
+import { baseApi } from "../../api/baseApi"
 
 const userManagementApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getAllStudents: builder.query({
       query: (args) => {
-        console.log(args);
-        const params = new URLSearchParams();
+        console.log(args)
+        const params = new URLSearchParams()
 
         if (args) {
           args.forEach((item: TQueryParam) => {
-            params.append(item.name, item.value as string);
-          });
+            params.append(item.name, item.value as string)
+          })
         }
 
         return {
-          url: '/students',
-          method: 'GET',
+          url: "/students",
+          method: "GET",
           params: params,
-        };
+        }
       },
       transformResponse: (response: TResponseRedux<TStudent[]>) => {
         return {
           data: response.data,
           meta: response.meta,
-        };
+        }
       },
     }),
     getAllFaculties: builder.query({
       query: (args) => {
-        console.log(args);
-        const params = new URLSearchParams();
+        console.log(args)
+        const params = new URLSearchParams()
 
         if (args) {
           args.forEach((item: TQueryParam) => {
-            params.append(item.name, item.value as string);
-          });
+            params.append(item.name, item.value as string)
+          })
         }
 
         return {
-          url: '/faculties',
-          method: 'GET',
+          url: "/faculties",
+          method: "GET",
           params: params,
-        };
+        }
       },
       transformResponse: (response: TResponseRedux<TStudent[]>) => {
         return {
           data: response.data,
           meta: response.meta,
-        };
+        }
       },
       providesTags: (result: any) =>
         result
           ? [
-              ...result.data.map(({ _id }: any) => ({ type: 'faculty' as const, id: _id })),
-              { type: 'faculty', id: 'LIST' },
+              ...result.data.map(({ _id }: any) => ({ type: "faculty" as const, id: _id })),
+              { type: "faculty", id: "LIST" },
             ]
-          : [{ type: 'faculty', id: 'LIST' }],
+          : [{ type: "faculty", id: "LIST" }],
     }),
 
     getAllAdmins: builder.query({
       query: (args) => {
-        console.log(args);
-        const params = new URLSearchParams();
+        console.log(args)
+        const params = new URLSearchParams()
 
         if (args) {
           args.forEach((item: TQueryParam) => {
-            params.append(item.name, item.value as string);
-          });
+            params.append(item.name, item.value as string)
+          })
         }
 
         return {
-          url: '/admins',
-          method: 'GET',
+          url: "/admins",
+          method: "GET",
           params: params,
-        };
+        }
       },
       transformResponse: (response: TResponseRedux<TStudent[]>) => {
         return {
           data: response.data,
           meta: response.meta,
-        };
+        }
       },
       providesTags: (result: any) =>
         result
-          ? [
-              ...result.data.map(({ _id }: any) => ({ type: 'admin' as const, id: _id })),
-              { type: 'admin', id: 'LIST' },
-            ]
-          : [{ type: 'admin', id: 'LIST' }],
+          ? [...result.data.map(({ _id }: any) => ({ type: "admin" as const, id: _id })), { type: "admin", id: "LIST" }]
+          : [{ type: "admin", id: "LIST" }],
     }),
 
     addStudent: builder.mutation({
       query: (data) => ({
-        url: '/users/create-student',
-        method: 'POST',
+        url: "/users/create-student",
+        method: "POST",
         body: data,
         formData: true,
       }),
-      invalidatesTags: [{ type: 'student', id: 'LIST' }],
-    }), 
+      invalidatesTags: [{ type: "student", id: "LIST" }],
+    }),
 
     addAdmin: builder.mutation({
       query: (data) => ({
@@ -109,7 +106,7 @@ const userManagementApi = baseApi.injectEndpoints({
         method: "POST",
         body: data,
       }),
-      invalidatesTags: [{ type: 'admin', id: 'LIST' }],
+      invalidatesTags: [{ type: "admin", id: "LIST" }],
     }),
 
     addFaculty: builder.mutation<IApiResponse, IFacultyForm>({
@@ -118,18 +115,35 @@ const userManagementApi = baseApi.injectEndpoints({
         method: "POST",
         body: data,
       }),
-      invalidatesTags: [{ type: 'faculty', id: 'LIST' }],
+      invalidatesTags: [{ type: "faculty", id: "LIST" }],
+    }),
+
+    getAdminProfile: builder.query({
+      query: () => ({
+        url: "/admins/my-profile",
+        method: "GET",
+      }),
+      providesTags: ["adminProfile"],
+    }),
+
+    updateAdminProfile: builder.mutation({
+      query: (data) => ({
+        url: "/admins/my-profile",
+        method: "PATCH",
+        body: data,
+      }),
+      invalidatesTags: ["adminProfile"],
     }),
 
     changePassword: builder.mutation({
       query: (data) => ({
-        url: '/auth/change-password',
-        method: 'POST',
+        url: "/auth/change-password",
+        method: "POST",
         body: data,
       }),
     }),
   }),
-});
+})
 
 export const {
   useAddStudentMutation,
@@ -138,5 +152,7 @@ export const {
   useGetAllAdminsQuery,
   useGetAllStudentsQuery,
   useGetAllFacultiesQuery,
+  useGetAdminProfileQuery,
+  useUpdateAdminProfileMutation,
   useChangePasswordMutation,
-} = userManagementApi;
+} = userManagementApi
