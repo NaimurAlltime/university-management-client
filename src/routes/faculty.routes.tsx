@@ -20,6 +20,11 @@ export const facultyPaths = [
     path: "courses/:registerSemesterId/:courseId",
     element: <MyStudents />,
   },
+  // {
+  //   name: "Grade Students",
+  //   path: "grading",
+  //   element: <MyStudents />,
+  // },
   {
     name: "Profile",
     path: "profile",

@@ -11,6 +11,9 @@ import {
   FiUser,
   FiFileText,
   FiCalendar,
+  FiAward,
+  FiBarChart,
+  FiEdit3,
 } from "react-icons/fi"
 import type { MenuProps } from "antd"
 
@@ -45,8 +48,14 @@ const iconMap: Record<string, IconType> = {
   Settings: FiSettings,
   Profile: FiUser,
   Courses: FiBook,
+  "My Courses": FiBook,
   "My Schedule": FiCalendar,
   Documents: FiFileText,
+  "My Results": FiAward,
+  "Grade Students": FiEdit3,
+  "Student Results": FiBarChart,
+  Results: FiAward,
+  Grading: FiEdit3,
 }
 
 export const generateSidebarItems = (items: TUserPath[], role: string): MenuProps["items"] => {
@@ -119,11 +128,3 @@ export const generateSidebarItems = (items: TUserPath[], role: string): MenuProp
     return acc
   }, [])
 }
-
-
-
-
-
-
-
-

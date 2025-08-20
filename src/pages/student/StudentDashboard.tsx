@@ -1,3 +1,5 @@
+"use client"
+
 import { Card, Row, Col, Statistic, Button, List, Avatar, Typography, Space, Progress, Tag } from "antd"
 import {
   BookOutlined,
@@ -245,8 +247,14 @@ const StudentDashboard = () => {
             </Button>
           </Col>
           <Col xs={24} sm={12} md={6}>
-            <Button size="large" block icon={<TrophyOutlined />} style={{ height: "60px" }}>
-              Grades
+            <Button
+              size="large"
+              block
+              icon={<TrophyOutlined />}
+              style={{ height: "60px" }}
+              onClick={() => (window.location.href = "/student/results")}
+            >
+              My Results
             </Button>
           </Col>
         </Row>

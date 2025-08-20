@@ -28,7 +28,7 @@ const FacultyDashboard = () => {
               Welcome, {faculty?.name?.firstName} {faculty?.name?.lastName}
             </Title>
             <p style={{ margin: 0, color: "#666" }}>
-              {faculty?.designation} - {faculty?.academicDepartment?.name}
+              {faculty?.designation}
             </p>
             <p style={{ margin: 0, color: "#666" }}>{faculty?.email}</p>
           </Col>
@@ -60,8 +60,8 @@ const FacultyDashboard = () => {
         <Col xs={24} sm={12} lg={6}>
           <Card>
             <Statistic
-              title="Academic Department"
-              value={faculty?.academicDepartment?.name || "N/A"}
+              title="Designation"
+              value={faculty?.designation || "N/A"}
               prefix={<TeamOutlined />}
             />
           </Card>

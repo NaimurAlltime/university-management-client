@@ -25,25 +25,47 @@ const MainLayout: React.FC = () => {
       navigate(`/${currentUser?.role}/profile`)
     } else if (key === "change-password") {
       navigate(`/${currentUser?.role}/change-password`)
+    } else if (key === "results" && currentUser?.role === "student") {
+      navigate(`/${currentUser?.role}/results`)
+    } else if (key === "grading" && currentUser?.role === "faculty") {
+      navigate(`/${currentUser?.role}/courses`)
     } else if (key === "logout") {
       handleLogout()
     }
   }
 
-  const userMenuItems: MenuProps["items"] = [
-    {
-      key: "profile",
-      label: "Profile",
-    },
-    {
-      key: "change-password",
-      label: "Change Password",
-    },
-    {
+  const getUserMenuItems = (): MenuProps["items"] => {
+    const baseItems = [
+      {
+        key: "profile",
+        label: "Profile",
+      },
+      {
+        key: "change-password",
+        label: "Change Password",
+      },
+    ]
+
+    // Add role-specific quick access items
+    if (currentUser?.role === "student") {
+      baseItems.splice(1, 0, {
+        key: "results",
+        label: "My Results",
+      })
+    } else if (currentUser?.role === "faculty") {
+      baseItems.splice(1, 0, {
+        key: "grading",
+        label: "Grade Students",
+      })
+    }
+
+    baseItems.push({
       key: "logout",
       label: "Logout",
-    },
-  ]
+    })
+
+    return baseItems
+  }
 
   return (
     <ErrorBoundary>
@@ -116,7 +138,7 @@ const MainLayout: React.FC = () => {
                   boxShadow: "0 2px 4px rgba(0,0,0,0.05)",
                 }}
               />
-              <Dropdown menu={{ items: userMenuItems, onClick: handleMenuClick }} placement="bottomRight">
+              <Dropdown menu={{ items: getUserMenuItems(), onClick: handleMenuClick }} placement="bottomRight">
                 <Avatar
                   icon={<UserOutlined />}
                   style={{

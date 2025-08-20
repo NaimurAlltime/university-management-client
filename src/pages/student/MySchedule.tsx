@@ -34,6 +34,7 @@ const MySchedule = () => {
   const { data: enrolledCoursesData, isLoading } = useGetAllEnrolledCoursesQuery([])
   // console.log("Enrolled Courses Data:", enrolledCoursesData);
   const enrolledCourses = enrolledCoursesData?.data || []
+  // console.log("Enrolled Courses:", enrolledCourses);
 
   // Time slots for the schedule (8 AM to 6 PM)
   const timeSlots = ["08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00"]
@@ -63,7 +64,7 @@ const MySchedule = () => {
     time: course.startTime && course.endTime ? `${course.startTime} - ${course.endTime}` : "TBA",
     startTime: course.startTime || "09:00",
     endTime: course.endTime || "10:30",
-    days: course.days || ["Monday", "Wednesday", "Friday"],
+    days: course.days || ["Monday", "Wednesday", "Saturday"],
     room: course.room || `Room ${100 + index}`,
     instructor: course.instructor || "TBA",
     color: courseColors[index % courseColors.length],
